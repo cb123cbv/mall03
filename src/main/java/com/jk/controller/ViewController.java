@@ -31,11 +31,5 @@ public class ViewController {
     }
 
 
-   /* @RequestMapping("test02")
-    public String test02(String pid,String id,String name,String name2){
-        System.out.println(pid+"<--------->"+id);
-        System.out.println(name+"<-----111---->"+name2);
-        return "home";
-    }
-*/
+
 }
