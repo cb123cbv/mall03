@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.ProductShowMapper">
+
+    <select id="getProductShow" resultType="com.jk.bean.Mall_Sku">
+SELECT
+	pro.shp_mch shpmch,
+  ma.shxm_mch  shxmmch,
+  mv.shxzh_mch shxzhmch,
+  mv.shxzh sxz,
+  sk.kcdz adress,
+  pro.shp_tp img,
+  sk.jg price
+FROM
+	t_mall_sku sk,
+	t_mall_sku_attr_value mav,
+	t_mall_attr ma,
+	t_mall_value mv,
+	t_mall_product pro
+WHERE
+	mav.sku_id = sk.Id
+AND mav.shxm_id = ma.Id
+AND mav.shxzh_id = mv.Id
+AND mav.shp_id = pro.Id
+and  pro.flbh1=#{id} GROUP BY pro.shp_mch
+
+
+
+
+
+    </select>
+
+    <select id="getPinPai" resultType="com.jk.bean.T_mall_trade_mark">
+
+        SELECT
+            tmtm.ppmch,
+            tmtm.url
+        FROM
+            t_mall_tm_class tmtc,
+            t_mall_trade_mark tmtm
+        WHERE
+            tmtc.pp_id = tmtm.Id
+        and
+            tmtc.flbh1 = #{id}
+
+    </select>
+
+    <select id="getAttrValueName" resultType="com.jk.bean.Mall_attr">
+        select * from t_mall_attr where flbh2 = #{id}
+    </select>
+
+    <select id="getAttrValue" resultType="com.jk.bean.Attr_value">
+        SELECT * from t_mall_value where shxm_id = #{id}
+    </select>
+</mapper>

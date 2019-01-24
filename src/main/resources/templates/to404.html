@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+
+    <title>404 - Not found</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="/404/scripts/jquery-1.7.2.min.js"></script>
+    <script src="/404/scripts/jquery.tipsy.js"></script>
+    <script src="/404/scripts/custom-scripts.js"></script>
+
+    <link rel="stylesheet" href="/404/css/main.css" type="text/css" media="screen, projection" /> <!-- main stylesheet -->
+    <link rel="stylesheet" type="text/css" media="all" href="/404/css/tipsy.css" /> <!-- Tipsy implementation -->
+
+
+    <script type="text/javascript"  th:inline="none">
+
+        $(document).ready(function(){
+            universalPreloader();
+
+        });
+        $(window).load(function(){
+            //remove Universal Preloader
+            universalPreloaderRemove();
+            rotate();
+            dogRun();
+            dogTalk();
+            //Tipsy implementation
+            $('.with-tooltip').tipsy({gravity: $.fn.tipsy.autoNS});
+
+        });
+
+    </script>
+
+</head>
+<body>
+<!-- Universal preloader -->
+<div id="universal-preloader">
+    <div class="preloader">
+        <img src="/404/images/universal-preloader.gif" alt="universal-preloader" class="universal-preloader-preloader" />
+    </div>
+</div>
+<!-- Universal preloader -->
+
+<div id="wrapper">
+    <!-- 404 graphic -->
+    <div class="graphic"></div>
+    <!-- 404 graphic -->
+
+    <div class="dog-wrapper">
+        <!-- dog running -->
+        <div class="dog"></div>
+        <!-- dog running -->
+
+        <!-- dog bubble talking -->
+        <div class="dog-bubble">
+
+        </div>
+
+        <!-- The dog bubble rotates these -->
+        <div class="bubble-options">
+            <p class="dog-bubble">
+                不要慌,程序猿正在努力恢复页面中.....!
+            </p>
+            <p class="dog-bubble">
+                <br />
+                Arf! Arf!
+            </p>
+            <p class="dog-bubble">
+                <br />
+                灯,等灯等灯等灯....
+            </p>
+        </div>
+        <!-- The dog bubble rotates these -->
+        <!-- dog bubble talking -->
+    </div>
+
+    <!-- planet at the bottom -->
+    <div class="planet"></div>
+    <!-- planet at the bottom -->
+</div>
+</body>
+</html>

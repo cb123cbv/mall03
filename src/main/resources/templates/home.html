@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/test/css/css.css">
+    <link rel="stylesheet" href="/lunbotu/css/font-awesome.css">
+    <link rel="stylesheet" href="/lunbotu/css/style.css">
+</head>
+<body>
+
+<div class="top">
+    <div class="top_text">
+        <a href="">用户登录</a>
+        <a href="">用户注册</a>
+    </div>
+</div>
+<div class="top_img" style="background-color:#ff9933">
+    <img src="//m.360buyimg.com/babel/jfs/t1/27825/39/6000/28861/5c45676bEaaecfc4b/58a017e7412beb55.png">
+</div>
+
+<div class="search" style="margin-left:0px;height: 130px">
+    <div class="logo" style="margin-left:70px;" >
+        <img src="//img20.360buyimg.com/da/jfs/t1/23377/26/6007/190377/5c46b6dcE6a2e665e/323a50ca6adbc492.gif?t=1548224782175" width="120px">
+    </div>
+    <div class="search_on">
+        <div class="se"  style="margin-left:80px">
+            <input type="text" name="search" class="lf">
+            <input type="submit" class="clik" value="搜索">
+        </div>
+    </div>
+</div>
+
+
+<!--左侧菜单-->
+
+<div class="menu">
+    <div class="nav">
+        <div class="navs">
+            <div class="left_nav">
+                全部商品分类
+                <div class="nav_mini" style="position: absolute; z-index:999;" >
+                    <ul>
+                        <div id="oneid" ></div>
+                    </ul>
+                </div>
+            </div>
+            <ul id="titleid">
+
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
+<!--轮播图-->
+
+<div id="wrapper" style="width: 650px;margin-left:300px;margin-top: 20px;float: left">
+    <div id="slider-wrap">
+        <ul id="slider">
+            <li>
+                <img id="pic0" src="" style="width:600px;height: 400px">
+            </li>
+            <li>
+                <img id="pic1" src="" style="width:600px;height: 400px">
+            </li>
+            <li>
+                <img id="pic2" src="" style="width:600px;height: 400px">
+            </li>
+            <li>
+                <img id="pic3" src="" style="width:600px;height: 400px">
+            </li>
+            <li>
+                <img id="pic4" src="" style="width:600px;height: 400px">
+            </li>
+        </ul>
+
+        <!--controls-->
+        <div class="btns" id="next"><i class="fa fa-arrow-right"></i></div>
+        <div class="btns" id="previous"><i class="fa fa-arrow-left"></i></div>
+        <div id="counter"></div>
+        <div id="pagination-wrap">
+            <ul>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div style="float: left;margin-top: 20px;margin-left:0px;height: 400px">
+    <div class="logo" style="height: 120px;">
+        <img src="//img11.360buyimg.com/babel/s190x150_jfs/t1/24713/14/5304/73600/5c3c29f2Ed1bda5c3/52a77a5f0d1117df.jpg!q90!cc_190x150"
+             height="125">
+    </div>
+
+    <div class="logo" style="height: 120px;margin-top: 10px;">
+        <img src="//img11.360buyimg.com/babel/s190x150_jfs/t1/27374/40/5318/66839/5c3c06f9E67e052e9/c6aed898bd7060e6.jpg!q90!cc_190x150"
+             height="125">
+    </div>
+
+    <div class="logo" style="height: 120px;margin-top: 10px;">
+        <img src="//img1.360buyimg.com/pop/s190x150_jfs/t1/10853/36/9264/44855/5c3efbc3Ed168426d/eff57e4da97c1c98.jpg!q90!cc_190x150"
+             height="125">
+    </div>
+
+
+</div>
+</div>
+
+
+<script src="/lunbotu/js/jquery.min.js"></script>
+<script src="/lunbotu/js/slide.js"></script>
+</body>
+<script type="text/javascript" th:inline="none">
+    $(function () {
+        query();
+        queryImgInfo();
+        queryTitle();
+    })
+
+    $(function () {
+        $('.nav_mini ul li').hover(function () {
+            $(this).find('.two_nav').show(100);
+        }, function () {
+            $(this).find('.two_nav').hide(100);
+        })
+    })
+
+    //左侧菜单,主目录
+    function query() {
+        $.ajax({
+            url: "/js/json/class_1.js",
+            type: "get",
+            async: false,
+            success: function (result) {
+                var cont = "";
+                $(JSON.parse(result)).each(function () {
+                    var flag = query2(this.id,this.flmch1);
+                    cont += '<li>'
+                    cont += '<a href="javascript:totitle()" >' + this.flmch1 + '</a>'
+                    cont += flag;
+                    cont += '</li>'
+                })
+                $("#oneid").html(cont)
+            },
+            error: function () {
+                alert("失败了");
+            }
+        });
+    }
+
+    //左侧菜单,子目录
+    function query2(pid,name) {
+        // debugger;
+        var filg = "";
+        $.ajax({
+            url: '/js/json/class_2_' + pid + '.js',
+            type: "get",
+            async: false,
+            success: function (result) {
+                filg += '<div class="two_nav" style="background-color: #880000">'
+                $(JSON.parse(result)).each(function () {
+                    filg += '<a href="javascript:void(0)"    onclick="to2(' + pid + ',' + this.id + ',\'' + name + '\',\'' + this.flmch2 + '\')">' + this.flmch2 + '</a>'
+                })
+                filg += '</div>'
+            },
+            error: function () {
+                alert("失败了");
+            }
+        });
+        return filg;
+    }
+
+    //去一级检索页面
+    function to1() {
+
+        alert("一级正在维护");
+    }
+
+    //去二级检索页面
+    function to2(pid, id,name,name2) {
+        window.location.href = "/test/test02?pid=" + pid + "&id=" + id +"&name=" +name+"&name2=" +name2;
+    }
+
+
+    function totitle(){
+        window.location.href = "/test/toView?url=to404";
+    }
+
+
+    //查询标题
+    function queryTitle() {
+
+        $.ajax({
+            url: "/img/queryTitle",
+            type: "POST",
+            success: function (result) {
+                var flag = "";
+                $.each(result, function (index, obj) {
+                    flag += '<li><a href="javascript:totitle()" >' + obj.tname + '</a></li>'
+                })
+                $("#titleid").html(flag);
+            },
+            error: function () {
+                alert("失败了");
+            }
+        });
+    }
+
+
+    //轮播图,查询url
+    function queryImgInfo() {
+        // var flag="";
+        $.ajax({
+            url: "/img/queryImg",
+            type: "POST",
+            success: function (result) {
+                for (i = 0; i < 5; i++) {
+                    $("#pic" + i).prop("src", result[i].imgUrl);
+                }
+                /* $.each(result,function (val,obj) {
+                     alert(obj.imgUrl);
+                       flag+=' <li data-color="#336699">'
+                       flag+=' <img src="'+obj.imgUrl+'">'
+                       flag+=' </li> <br/>'
+                 })
+                 console.log(flag)
+                  $("#slider").html(flag);*/
+            },
+            error: function () {
+                alert("失败了");
+            }
+        });
+    }
+
+
+</script>
+
+</html>
