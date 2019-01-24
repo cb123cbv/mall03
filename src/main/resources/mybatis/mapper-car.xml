@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.CarMapper">
+
+    <select id="queryCar" resultType="com.jk.bean.QueryParam">
+SELECT
+	pro.shp_mch shpmch,
+  ma.shxm_mch  shxmmch,
+  mv.shxzh_mch shxzhmch,
+  mv.shxzh sxz,
+  sk.kcdz adress,
+  pro.shp_tp img,
+  sk.jg price,
+  pro.id
+FROM
+	t_mall_sku sk,
+	t_mall_sku_attr_value mav,
+	t_mall_attr ma,
+	t_mall_value mv,
+	t_mall_product pro
+WHERE
+	mav.sku_id = sk.Id
+AND mav.shxm_id = ma.Id
+AND mav.shxzh_id = mv.Id
+AND mav.shp_id = pro.Id
+and  pro.id IN( ${ids} )   GROUP BY pro.shp_mch
+
+    </select>
+
+
+</mapper>

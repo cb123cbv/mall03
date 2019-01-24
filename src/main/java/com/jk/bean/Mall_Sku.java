@@ -21,6 +21,7 @@ public class  Mall_Sku {
     Integer   sku_xl;           //(sku销量)   Integer
     String    kcdz;             //(库存地址)    String(500)
 
+
     private  String shpmch;     //商品名称
     private  String shxmmch;    //属性
     private  String shxzhmch;   //属性值名
