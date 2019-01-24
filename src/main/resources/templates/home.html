@@ -10,13 +10,14 @@
     <link rel="stylesheet" href="/lunbotu/css/font-awesome.css">
     <link rel="stylesheet" href="/lunbotu/css/style.css">
 </head>
+
 <body>
 
 <div class="top">
     <div class="top_text">
         <a href="/login/toLogin2">用户登录</a>
         <a href="/login/toRegist">用户注册</a>
-        <a href="javascript:void(0)">你好，</a>
+        <a href="javascript:void(0)">你好,<span id="username"></span></a>
     </div>
 </div>
 <div class="top_img" style="background-color:#ff9933">
@@ -115,14 +116,33 @@
 <script src="/lunbotu/js/jquery.min.js"></script>
 <script src="/lunbotu/js/slide.js"></script>
 
+
 </body>
 <script type="text/javascript" th:inline="none">
-
     $(function () {
         query();
         queryImgInfo();
         queryTitle();
+        getCookie();
     })
+
+    // 获取cookie里的昵称，账号
+    function getCookie(){
+        var str = document.cookie;
+        var arr = str.split(";");
+        $.each(arr, function (index, obj){
+            var array = obj.split("=");
+            if(array[0].trim()=="cookie_name2"){
+                //console.log(array[1]);//111-111
+                var ar = array[1].split("&");
+                var uname = ar[0];//111
+                var username = ar[1];//111
+                alert(username)
+                $('[name="loginAcct"]').val(uname);
+                $("#username").append(username);
+            }
+        })
+    }
 
     $(function () {
         $('.nav_mini ul li').hover(function () {
@@ -131,6 +151,11 @@
             $(this).find('.two_nav').hide(100);
         })
     })
+    function echoNameAndPwd() {//前端回显用户名 密码
+
+
+
+    }
 
     //左侧菜单,主目录
     function query() {

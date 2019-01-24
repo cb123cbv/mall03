@@ -9,9 +9,9 @@
     <script type="text/javascript">
      $(function(){
 
-         if($("#loginZd").is(':checked')==true){
+         /*if($("#loginZd").is(':checked')==true){
              to_submit();
-         }
+         }*/
      })
         function to_submit(){
             $.ajax({
@@ -69,7 +69,6 @@
             <div style="float: left">
                 <input type="checkbox" class="box_02_box" id="loginZd" th:checked="${password}==null?'false':'checked'"/>
                 自动登录
-
         </div>
         </form>
         <div class="blank_01"></div>

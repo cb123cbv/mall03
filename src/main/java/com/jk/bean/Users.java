@@ -14,6 +14,7 @@ public class Users {
     private String userName;
     private String email;
     private String user_pwd;
+    private Integer loginZd;
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createTime;
