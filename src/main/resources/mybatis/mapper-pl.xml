@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.PlMapper">
+    <select id="getPl" resultType="com.jk.bean.Mall_product_comment">
+     SELECT
+	c.userName,
+	b.plshj,
+	b.plnr
+FROM
+	t_mall_sku a,
+	t_mall_product_comment b,
+	t_user c
+WHERE
+	a.Id = b.sku_id
+AND b.yh_id = c.id
+AND b.state = 1
+AND a.Id = #{id}
+    </select>
+    <insert id="addPl">
+        insert into t_mall_product_comment(sku_id,state,yh_id,plnr,plshj) value(#{sku_id},0,
+        <if test="yh_id!=null">
+            #{yh_id}
+        </if>
+        <if test="yh_id==null">
+            -1
+        </if>
+        ,#{plnr},SYSDATE())
+    </insert>
+</mapper>

@@ -16,8 +16,8 @@ import lombok.Data;
  */
 @Data
 public class ReceivePage {
-	
-	Integer page;
-	
-	Integer rows;
+
+	Integer offset;
+
+	Integer pageSize;
 }
