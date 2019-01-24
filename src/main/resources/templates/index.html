@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>taobao jquery js lephy</title>
+    <link rel="stylesheet" href="/taobao/css/reset.css"/>
+    <link rel="stylesheet" href="/taobao/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/taobao/css/style.css"/>
+</head>
+<body>
+<!--scroll-head-->
+<div class="scroll-head"></div>
+<!--top-->
+<div class="top-wrapper">
+    <div class="top-info">
+        <div class="top-left">
+            <img height="34px" a-float-left src="/taobao/img/qqq.gif"/>
+        </div>
+        <!--top-right-->
+        <div class="top-right">
+            <div data-toggle="arrowdown" id="arrow3" class="user-name">
+                <a href="#">我的淘宝</a>
+                <span class="down-icon"></span>
+            </div>
+            <div data-toggle="arrowdown" id="arrow4" class="user-name">
+                <i class="fa fa-shopping-cart fa-orange"></i>
+                <a href="#">购物车</a>
+                <span class="down-icon"></span>
+            </div>
+
+
+            <!--hidden-box-->
+            <div data-toggle="hidden-box" id="nav-box3" class="my-taobao-box">
+                <ul>
+                    <li>已买到的宝贝</li>
+                    <li>我的上新</li>
+                </ul>
+            </div>
+
+
+            <div data-toggle="hidden-box" id="nav-box4" class="shopping-box">
+                <span>您购物车里还没有任何宝贝。</span><a class="check-shopp" href="#">查看我的购物车</a>
+            </div>
+
+            <div data-toggle="hidden-box" id="nav-box6" class="center-box">
+                <ul>
+                    <li>已卖出的宝贝</li>
+                    <li>出售中的宝贝</li>
+                    <li>卖家服务市场</li>
+                    <li>卖家培训中心</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <!--scroll-top-->
+
+</div>
+
+
+<!--top-main-->
+<div class="top-main">
+    <img src="/taobao/img/logo.gif"/>
+    <div class="search-wrapper">
+        <div class="search-box">
+            <div data-toggle="arrowdown" id="arrow8" class="search-toggle">
+                宝贝<span class="down-icon"></span>
+            </div>
+            <input class="search-in" type="text" placeholder="请输入搜索信息">
+            <input type="button" class="search-but" value="搜索">
+            <div data-toggle="hidden-box" id="nav-box8" class="search-toggle-box">店铺</div>
+        </div>
+
+        <!--other-search-->
+        <div class="other-search">
+            <a href="#">女士凉鞋</a>
+            <a href="#">男士T恤</a>
+            <a href="#">连衣裙</a>
+            <a href="#">时尚女包</a>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!--左侧树一级菜单-->
+<div class="content-top">
+    <div class="sidebar">
+        <h3>商品服务分类</h3>
+
+        <!--sidebar-info-->
+        <div class="sidebar-info">
+            <ul class="side-li" id="tree1">
+              <!--  <li class="s_1"><h3>服装内衣<span class="fa fa-angle-right fa-loc"></span></h3></li> -->
+            </ul>
+
+
+            <!--左侧树二级菜单            开始-->
+            <!--hidden-li-box-->
+            <ul class="hiden-box">
+                <li data-hidden="li" id="hiden-1">
+                    <div class="hidden-title">
+                        <a href="#">淘宝女人</a><span class="right-box"><i class="fa fa-angle-right"></i></span>
+                        <a href="#">最in女装</a><span class="right-box"><i class="fa fa-angle-right"></i></span>
+                        <a href="#">淘宝男人</a><span class="right-box"><i class="fa fa-angle-right"></i></span>
+                        <a href="#">女人搭配</a><span class="right-box"><i class="fa fa-angle-right"></i></span>
+                    </div>
+                    <div class="sub-nav-right">
+                        <div class="cell-box">
+                            <h1>印记女装</h1>
+                            <div class="a-box">
+                                <a href="#">连衣裙</a><span>|</span>
+                                <a href="#">裤子</a><span>|</span>
+                                <a href="#">小西装</a><span>|</span>
+                                <a href="#">长袖村上</a><span>|</span>
+                                <a href="#" class="orange">春季外套</a>
+                                <a href="#">郑志山</a><span>|</span>
+                                <a href="#">毛衣</a><span>|</span>
+                                <a href="#">长袖T恤</a><span>|</span>
+                                <a href="#">唯一</a><span>|</span>
+                                <a href="#">雪绒钱</a><span>|</span>
+                                <a href="#">大地亏</a>
+                                <a href="#">半身全</a><span>|</span>
+                                <a href="#">风衣</a><span>|</span>
+                                <a href="#">类似雪纺</a><span>|</span>
+                                <a href="#">毛衣外套</a><span>|</span>
+                                <a href="#">棒球服</a>
+                                <a href="#">牛仔装</a><span>|</span>
+                                <a href="#">礼服</a><span>|</span>
+                                <a href="#">婚纱</a><span>|</span>
+                                <a href="#">大妈</a><span>|</span>
+                                <a href="#">Zara</a><span>|</span>
+                                <a href="#">挨个</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </li>
+
+
+                <li data-hidden="li" id="hiden-2">
+                    <div class="hidden-title">
+                        <a href="#">精品女鞋</a><span class="right-box"><i class="fa fa-angle-right"></i></span>
+                        <a href="#">最in女装</a><span class="right-box"><i class="fa fa-angle-right"></i></span>
+                        <a href="#">淘宝男人</a><span class="right-box"><i class="fa fa-angle-right"></i></span>
+                        <a href="#">女人搭配</a><span class="right-box"><i class="fa fa-angle-right"></i></span>
+                    </div>
+
+
+                    <div class="sub-nav-left">
+
+                    </div>
+
+
+                </li>
+                <li data-hidden="li" id="hiden-3">
+                    <div class="hidden-title">
+                        <a href="#">运动产品</a><span class="right-box"><i class="fa fa-angle-right"></i></span>
+                        <a href="#">最in女装</a><span class="right-box"><i class="fa fa-angle-right"></i></span>
+                        <a href="#">淘宝男人</a><span class="right-box"><i class="fa fa-angle-right"></i></span>
+                        <a href="#">女人搭配</a><span class="right-box"><i class="fa fa-angle-right"></i></span>
+                    </div>
+                    <div class="sub-nav-right">
+                        <div class="cell-box">
+                            <h1>印记女装</h1>
+                            <div class="a-box">
+                                <a href="#">连衣裙</a><span>|</span>
+                                <a href="#">裤子</a><span>|</span>
+                                <a href="#">小西装</a><span>|</span>
+
+
+                            </div>
+                        </div>
+                        <div class="cell-box">
+                            <h1>印记女装</h1>
+                            <div class="a-box">
+                                <a href="#">连衣裙</a><span>|</span>
+                                <a href="#">裤子</a><span>|</span>
+                                <a href="#">小西装</a><span>|</span>
+
+                            </div>
+                        </div>
+                        <div class="cell-box">
+                            <h1>印记女装</h1>
+                            <div class="a-box">
+                                <a href="#">连衣裙</a><span>|</span>
+                                <a href="#">裤子</a><span>|</span>
+                                <a href="#">小西装</a><span>|</span>
+                                <a href="#">长袖村上</a><span>|</span>
+                                <a href="#" class="orange">春季外套</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-nav-left">
+                        <div class="cell-box">
+                            <h1>印记女装</h1>
+                            <div class="a-box">
+                                <a href="#">连衣裙</a><span>|</span>
+                                <a href="#">裤子</a><span>|</span>
+                                <a href="#">小西装</a><span>|</span>
+                                <a href="#">长袖村上</a><span>|</span>
+                                <a href="#" class="orange">春季外套</a>
+                                <a href="#">郑志山</a><span>|</span>
+                                <a href="#">毛衣</a><span>|</span>
+                                <a href="#">长袖T恤</a><span>|</span>
+                                <a href="#">唯一</a><span>|</span>
+                                <a href="#">雪绒钱</a><span>|</span>
+                                <a href="#">大地亏</a>
+                                <a href="#">半身全</a><span>|</span>
+                                <a href="#">风衣</a><span>|</span>
+                                <a href="#">类似雪纺</a><span>|</span>
+                                <a href="#">毛衣外套</a><span>|</span>
+                                <a href="#">棒球服</a>
+                                <a href="#">牛仔装</a><span>|</span>
+                                <a href="#">礼服</a><span>|</span>
+                                <a href="#">婚纱</a><span>|</span>
+                                <a href="#">大妈</a><span>|</span>
+                                <a href="#">Zara</a><span>|</span>
+                                <a href="#">挨个</a>
+                            </div>
+                        </div>
+                        <div class="cell-box">
+                            <h1>印记女装</h1>
+                            <div class="a-box">
+                                <a href="#">连衣裙</a><span>|</span>
+                                <a href="#">裤子</a><span>|</span>
+                                <a href="#">小西装</a><span>|</span>
+                                <a href="#">长袖村上</a><span>|</span>
+                                <a href="#" class="orange">春季外套</a>
+                                <a href="#">郑志山</a><span>|</span>
+                                <a href="#">毛衣</a><span>|</span>
+                                <a href="#">长袖T恤</a><span>|</span>
+                                <a href="#">唯一</a><span>|</span>
+                                <a href="#">雪绒钱</a><span>|</span>
+                                <a href="#">大地亏</a>
+                                <a href="#">半身全</a><span>|</span>
+                                <a href="#">风衣</a><span>|</span>
+                                <a href="#">类似雪纺</a><span>|</span>
+                                <a href="#">毛衣外套</a><span>|</span>
+                                <a href="#">棒球服</a>
+                                <a href="#">牛仔装</a><span>|</span>
+                                <a href="#">礼服</a><span>|</span>
+                                <a href="#">婚纱</a><span>|</span>
+                                <a href="#">大妈</a><span>|</span>
+                                <a href="#">Zara</a><span>|</span>
+                                <a href="#">挨个</a>
+                            </div>
+                        </div>
+                        <div class="cell-box">
+                            <h1>印记女装</h1>
+                            <div class="a-box">
+                                <a href="#">连衣裙</a><span>|</span>
+                                <a href="#">裤子</a><span>|</span>
+                                <a href="#">小西装</a><span>|</span>
+                                <a href="#">长袖村上</a><span>|</span>
+                                <a href="#" class="orange">春季外套</a>
+                                <a href="#">郑志山</a><span>|</span>
+                                <a href="#">毛衣</a><span>|</span>
+                                <a href="#">长袖T恤</a><span>|</span>
+                                <a href="#">唯一</a><span>|</span>
+                                <a href="#">雪绒钱</a><span>|</span>
+                                <a href="#">大地亏</a>
+                                <a href="#">半身全</a><span>|</span>
+                                <a href="#">风衣</a><span>|</span>
+                                <a href="#">类似雪纺</a><span>|</span>
+                                <a href="#">毛衣外套</a><span>|</span>
+                                <a href="#">棒球服</a>
+                                <a href="#">牛仔装</a><span>|</span>
+                                <a href="#">礼服</a><span>|</span>
+                                <a href="#">婚纱</a><span>|</span>
+                                <a href="#">大妈</a><span>|</span>
+                                <a href="#">Zara</a><span>|</span>
+                                <a href="#">挨个</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+
+                <li data-hidden="li" id="hiden-4">
+
+                </li>
+
+
+            </ul>
+            <!--左侧树二级菜单            结束-->
+
+        </div>
+    </div>
+
+
+
+    <div class="right-con">
+
+        <!--标头-->
+        <div class="nav" id="titleid"></div>
+
+
+
+        <!--show-box-->
+        <div class="show-box">
+            <!--content-->
+            <div class="content">
+
+                <!--轮转图1-->
+                <ul class="imgBox" id="slider">
+                </ul>
+                <!--轮转图1下的滑轮-->
+                <div class="currentNum" id="titleid2">
+                    <span class="imgNum1 mark-color"></span>
+                    <span class="imgNum1"></span>
+                    <span class="imgNum1"></span>
+                    <span class="imgNum1"></span>
+                    <span class="imgNum1"></span>
+                </div>
+            </div>
+            <a style="float: left" href="#"><img src="/taobao/img/6.6.jpg"/></a>
+            <!--content-down-->
+            <div class="content-down">
+                <ul class="imgBox1">
+                    <li>
+                        <a href="#"><img src="/taobao/img/01.png"/></a>
+                        <a href="#"><img src="/taobao/img/02.jpg"/></a>
+                        <a href="#"><img src="/taobao/img/03.png"/></a>
+                        <a href="#"><img src="/taobao/img/04.png"/></a>
+                    </li>
+                </ul>
+                <div class="currentNum-down">
+                    <span class="imgNum1 mark-color"></span>
+                    <span class="imgNum1"></span>
+                    <span class="imgNum1"></span>
+                    <span class="imgNum1"></span>
+                    <span class="imgNum1"></span>
+                </div>
+
+            </div>
+            <a style="float: left" href="#"><img src="/taobao/img/15.jpg"/></a>
+        </div>
+
+        <!--right-sidbar-->
+        <div class="right-sidebar">
+
+            <!--用户登录窗口-->
+            <div class="user-info">
+                <div class="gold-top">
+                    <img width="62px" height="62px" src="/taobao/img/user-head.jpg"/>
+                    <div class="inner-user">
+                        <h3>Hi 天之狼2011</h3>
+
+                    </div>
+                </div>
+                <!--login-->
+                <div class="login">
+                    <a class="login-btn" href="#"><i class="fa fa-user fa-user-loc"></i>登陆</a>
+                    <a class="login-btn free" href="#">免费注册</a>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script src="/taobao/js/jquery_1.9.js"></script>
+<script src="/taobao/js/main.js"></script>
+<script src="/taobao/js/img-show.js"></script>
+<script type="text/javascript" th:inline="none">
+    $(function () {
+        query();
+        queryImgInfo();
+        queryTitle();
+    })
+
+
+    function totitle(){
+        window.location.href = "/test/toView?url=to404";
+    }
+
+
+    //查询标题
+    function queryTitle() {
+        $.ajax({
+            url: "/img/queryTitle",
+            type: "POST",
+            async:false,
+            success: function (result) {
+                var flag = "";
+                var flag2 = '<span class="imgNum mark-color"></span>';
+                $.each(result, function (index, obj) {
+                    flag += '<a href="javascript:totitle()" >' + obj.tname + '</a>'
+                    flag2+= '<span class="imgNum"></span>'
+                })
+
+                $("#titleid").html(flag);
+            },
+            error: function () {
+                alert("失败了");
+            }
+        });
+    }
+
+
+
+    //轮播图,查询url
+    function queryImgInfo() {
+        var flag="";
+        $.ajax({
+            url: "/img/queryImg",
+            type: "POST",
+            success: function (result) {
+              /*  for (i = 0; i < 5; i++) {
+                    $("#pic" + i).prop("src", result[i].imgUrl);
+                }*/
+                $.each(result,function (val,obj) {
+
+                    flag+='<li><a href="javascript:totitle()"><img src="'+obj.imgUrl+'" width="550px"></a></li>'
+                 })
+
+                  $("#slider").html(flag);
+            },
+            error: function () {
+                alert("失败了");
+            }
+        });
+    }
+
+
+    //左侧菜单,主目录
+    function query() {
+        $.ajax({
+            url: "/js/json/class_1.js",
+            type: "get",
+            async: false,
+            success: function (result) {
+                var cont = "";
+                var i=1;
+                $(JSON.parse(result)).each(function () {
+                    //var flag = query2(this.id,this.flmch1);
+                    //  <li class="s_1"><h3>服装内衣<span class="fa fa-angle-right fa-loc"></span></h3></li>
+                    cont += '<li class="s_'+i+'"><h3>'+this.flmch1+'<span class="fa fa-angle-right fa-loc"></span></h3></li>'
+                    i++;
+                })
+                $("#tree1").html(cont)
+            },
+            error: function () {
+                alert("失败了");
+            }
+        });
+    }
+
+
+
+
+</script>
+</body>
+</html>

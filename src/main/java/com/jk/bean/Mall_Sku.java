@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 public class  Mall_Sku {
-    Integer   Id;               //(编号)          PKInteger
+    Integer   id;               //(编号)          PKInteger
     Integer   shp_id;          //(商品id)      Integer
     Integer   kc;               //(库存)          Integer
     Double    jg;              //(价格)          decimal
@@ -20,6 +20,7 @@ public class  Mall_Sku {
     String    sku_mch;          //(sku名称)  String(100)
     Integer   sku_xl;           //(sku销量)   Integer
     String    kcdz;             //(库存地址)    String(500)
+
 
     private  String shpmch;     //商品名称
     private  String shxmmch;    //属性

@@ -93,8 +93,12 @@ public class LoginController {
     }
 
     @RequestMapping("toRegist")
-    public String toRegist() {
+    public String toRegist(HttpServletResponse response) {
 
+        Cookie cookie = new Cookie(Contant.remPwd, null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
         return "regist";
     }
 
