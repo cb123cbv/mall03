@@ -35,8 +35,7 @@
     </div>
 </div>
 
-
-<!--左侧菜单-->
+    <!--左侧菜单-->
 
 <div class="menu">
     <div class="nav">
@@ -107,9 +106,9 @@
              height="125">
     </div>
 
+</div>
+</div>
 
-</div>
-</div>
 
 
 <script src="/lunbotu/js/jquery.min.js"></script>
@@ -203,7 +202,7 @@
             success: function (result) {
                 var flag = "";
                 $.each(result, function (index, obj) {
-                    flag += '<li><a href="javascript:totitle()" >' + obj.tname + '</a></li>'
+                    flag += '<li><a href="'+obj.turl+'" >' + obj.tname + '</a></li>'
                 })
                 $("#titleid").html(flag);
             },
