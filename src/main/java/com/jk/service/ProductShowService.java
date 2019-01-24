@@ -13,4 +13,6 @@ public interface ProductShowService {
     List<T_mall_trade_mark> getPinPai(Integer id);
 
     List<Mall_attr> getAttrValueName(Integer id);
+
+    Mall_Sku getShowPage(String id);
 }

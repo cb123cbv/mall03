@@ -17,4 +17,6 @@ public interface ProductShowMapper {
     List<Mall_attr> getAttrValueName(Integer id);
 
     List<Attr_value> getAttrValue(Integer id);
+
+    Mall_Sku getShowPage(String id);
 }

@@ -7,4 +7,5 @@ public class TitleInfo {
 
     private Integer id;
     private String tname;
+    private String turl;
 }
