@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -26,7 +27,7 @@ public class LoginController {
 
     @ResponseBody
     @RequestMapping("login")
-    public String logins(Users users, Model Model , HttpServletResponse response) throws UnsupportedEncodingException {
+    public String logins(Users users, HttpSession session, HttpServletResponse response) throws UnsupportedEncodingException {
         Users usersDb = loginClientService.getLogins(users);
         if (usersDb == null) {
             return "0";
@@ -34,15 +35,19 @@ public class LoginController {
         //正确//判断有没有勾选记住密码
         if (users.getUser_pwd() != null) {
             //将Users对象转换成json字符串
-            String jsonString = JSONObject.toJSONString(users);
+            String jsonString = JSONObject.toJSONString(usersDb);
             String encode = URLEncoder.encode(jsonString, "utf-8");
             Cookie cookie = new Cookie(Contant.remPwd, encode);
+
             //方法一
-            //Cookie cookie = new Cookie(Contant.remPwd,users.getLoginAcct()+ Contant.splitChar+users.getUserPswd());
+            Cookie cookie1 = new Cookie(Contant.remPwdr,usersDb.getLoginAcct()+ Contant.splitChar+usersDb.getUserName());
             cookie.setMaxAge(604800);
+            cookie1.setMaxAge(604800);
             cookie.setPath("/");
+            cookie1.setPath("/");
             //此时的cookie还在服务器上 要发送到浏览器上 通过响应对象
             response.addCookie(cookie);
+            response.addCookie(cookie1);
         } else {
             //没有勾选--》清除密码
             Cookie cookie = new Cookie(Contant.remPwd, null);
@@ -50,14 +55,13 @@ public class LoginController {
             cookie.setPath("/");
             response.addCookie(cookie);
         }
-        Model.addAttribute("users", usersDb);
-
+        session.setAttribute("users", usersDb);
         return "1";
     }
 
 
     @RequestMapping("toLogin2")
-    public String toLogin2(HttpServletRequest request, Model model) throws UnsupportedEncodingException {
+    public String toLogin2(HttpServletRequest request,HttpSession session, Model model) throws UnsupportedEncodingException {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -66,11 +70,12 @@ public class LoginController {
                     Users users = JSONObject.parseObject(decode, Users.class);
                     model.addAttribute("username", users.getLoginAcct());
                     model.addAttribute("password", users.getUserPswd());
-
-                }
+                    session.setAttribute("name", users);
+            }
             }
 
         }
+
         return "login";
     }
 
@@ -80,6 +85,8 @@ public class LoginController {
         if(StringUtils.isEmpty(users.getLoginAcct())&&StringUtils.isEmpty(users.getUserPswd())){
             return "0";
         }
+
+
         Users usersDb = loginClientService.getloginAcct(users);
         if (usersDb != null) {
             if (usersDb.getLoginAcct().equals(users.getLoginAcct())) {
@@ -87,7 +94,6 @@ public class LoginController {
             }
         }
         loginClientService.toRegist(users);
-
             return "1";
 
     }
