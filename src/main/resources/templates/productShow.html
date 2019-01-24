@@ -34,11 +34,10 @@
             success: function (result) {
                 var cont="";
                 $.each(result,function (index,obj) {
-                    cont += '<a href="###">'+obj.ppmch+'</a>';
-                    cont += '<img class="loading-style2" width="102" height="36" data-lazy-img="done" src="'+obj.url+'">';
+                    cont += '<a href="###" onclick="addup1(\''+obj.ppmch+'\')">'+obj.ppmch+'</a>';
+                    //cont += '<img class="loading-style2" width="102" height="36" data-lazy-img="done" src="'+obj.url+'">';
                 })
-
-                $("#divId").html(cont);
+                $("#divId").append(cont);
             },
             error: function () {
                 alert("失败了");
@@ -53,12 +52,13 @@
             success: function (result) {
                 console.log(result);
                 var cont="";
+                var iiid = 0;
                 $.each(result,function (index,obj) {
-                    cont += "<div class='list'>";
+                    iiid++;
+                    cont += "<div class='list' id='"+iiid+"'>";
                     cont+='<span>'+obj.shxm_mch+'</span>';
                     $.each(obj.shuxzhlist,function (index,obj1) {
-                        console.log(obj1);
-                        cont+='<a href="###">'+obj1+'</a>';
+                        cont+='<a href="###" onclick="addup('+iiid+',\''+obj.shxm_mch+'\',\''+obj1+'\')">'+obj1+'</a>';
                     })
                     cont += "</div>"
                 })
@@ -70,7 +70,24 @@
             }
         });
     }
-
+    function addup(index,a,b) {
+        var cont = '<span class="gt">&gt;</span>';
+        cont += '<div id="classid2" class="filter_div">';
+        cont += a+':'+b;
+        cont += '</div>';
+        //alert(cont);
+        $('#filterid').append(cont);
+        $('#'+index).remove();
+    }
+    function addup1(name) {
+        var cont = '<span class="gt">&gt;</span>';
+        cont += '<div id="classid2" class="filter_div">';
+        cont += '品牌:'+name;
+        cont += '</div>';
+        //alert(cont);
+        $('#filterid').append(cont);
+        $('#divId').remove();
+    }
     function productShow(id) {
 
         $.ajax({
@@ -99,7 +116,6 @@
 
         })
     }
-
 </script>
 <body>
 <div class="top">
@@ -113,8 +129,6 @@
 <div class="top_img" style="background-color:#ff9933">
     <img src="//m.360buyimg.com/babel/jfs/t1/27825/39/6000/28861/5c45676bEaaecfc4b/58a017e7412beb55.png">
 </div>
-
-
 <div class="search">
     <div class="logo"> <img src="//img20.360buyimg.com/da/jfs/t1/23377/26/6007/190377/5c46b6dcE6a2e665e/323a50ca6adbc492.gif?t=1548224782175" width="120px"></div>
     <div class="search_on">
@@ -193,47 +207,26 @@
         </div>
     </div>
 </div>
-
 <!--筛选阶段-->
-<div class="filter">
+<div class="filter" id="filterid">
     <h2 id="classid1" > </h2>
-    <span class="gt">&gt;</span>
-    <div id="classid2" class="filter_div">
-
-    </div>
-    <!--<span class="gt">&gt;</span>
-    <div class="filter_div">
-        游戏本
-    </div>
-    <span class="gt">&gt;</span>
-    <div class="filter_div">
-        游戏本
-    </div>
-    <div class="filter_clear">
-        清空筛选
-    </div>-->
-
+    <span class="gt" id="">&gt;</span>
+    <div id="classid2" class="filter_div"></div>
 </div>
-
-
-
-
-
+<div class="filter">
+    <button onclick="location.reload()">清空筛选</button>
+</div>
 <div class="Sscreen">
     <div class="title">
         平板电视 商品筛选 共1205个商品
     </div>
 	<div class="list">
-        <span>品牌：</span>
         <div id="divId">
+            <span>品牌：</span>
         </div>
-
-
         <div id="divId1">
-
         </div>
     </div>
-
     <div class="list">
         <span class="list_span" id="list_beas">销量</span>
         <span class="list_span">价格</span>
@@ -246,7 +239,6 @@
 
 
 </div>
-
 <div class="footer">
     <div class="top"></div>
     <div class="bottom"><img src="images/foot.jpg" alt=""></div>
