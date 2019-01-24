@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/css.css">
+</head>
+<script type="text/javascript">
+    $(function () {
+
+    })
+      
+    function getCart() {
+
+        $.ajax({
+            url:"<%=path %>/",
+            type:"POST",
+            data:$("form").serialize(),
+            success:function(result){
+                var content="";
+                $.each(result,function (index,obj) {
+                    content="<td>"+obj.id+"</td>"
+                    content+="<td>"+ob.shpmch+"</td>"
+                    content+="<td>"+obj.shxmmch+"&nbsp;"+obj.sxz+obj.shxmmch+""</td>"
+                    content+="<td>"+obj.adress+"</td>"
+                    content+="<td><img src="+obj.img+" ></td>"
+                    content+="<td>￥"+obj.price+"</td>"
+
+                })
+            },
+            error:function(){
+                alert("失败了");
+            }
+        })
+    }
+</script>
+<body style="zoom: 1;">
+<div class="top">
+    <div class="top_text">
+        <a href="">用户登录</a>
+        <a href="">用户注册</a>
+        <a href="">供应商登录</a>
+        <a href="">供应商注册</a>
+    </div>
+</div>
+<div class="top_img" style="background-color:#ff9933">
+    <img src="//m.360buyimg.com/babel/jfs/t1/27825/39/6000/28861/5c45676bEaaecfc4b/58a017e7412beb55.png">
+</div>
+<div class="search">
+    <div class="logo"> <img src="//img20.360buyimg.com/da/jfs/t1/23377/26/6007/190377/5c46b6dcE6a2e665e/323a50ca6adbc492.gif?t=1548224782175" width="120px"></div>
+    <div class="search_on">
+        <div class="se">
+            <input type="text" name="search" class="lf">
+            <input type="submit" class="clik" value="搜索" style="height: 32px;">
+        </div>
+        <div class="se">
+            <a href="">取暖神奇</a>
+            <a href="">1元秒杀</a>
+            <a href="">吹风机</a>
+            <a href="">玉兰油</a>
+        </div>
+    </div>
+    <div class="card" style="height: 36px;">
+        <a href="">购物车<div class="num">0</div></a>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="Cbox">
+     <from>
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>商品编号</th>
+            <th>商品名称</th>
+            <th>商品属性</th>
+            <th>商品仓库地址</th>
+            <th>商品图片</th>
+            <th>商品价格</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="cart">
+
+        </tr>
+        </tbody>
+    </table>
+     </from>
+</div>
+<div class="Cprice">
+    <div class="price">总价：199.00</div>
+    <div class="jiesuan">结算</div>
+</div>
+<div class="footer">
+    <div class="top"></div>
+    <div class="bottom"><img src="images/foot.jpg" alt=""></div>
+</div>
+
+
+
+
+</body>
+</html>

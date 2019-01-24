@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/css.css">
+</head>
+<script type="text/javascript">
+$(function () {
+    $("#img").attr("src", "[[${session.mallSku.img}]]");
+})
+
+</script>
+<body>
+<div class="top">
+    <div class="top_text">
+        <a href="">用户登录</a>
+        <a href="">用户注册</a>
+        <a href="">供应商登录</a>
+        <a href="">供应商注册</a>
+    </div>
+</div>
+
+<div class="search searchBac">
+    <div class="top_img" style="background-color:#ff9933">
+        <img src="//m.360buyimg.com/babel/jfs/t1/27825/39/6000/28861/5c45676bEaaecfc4b/58a017e7412beb55.png">
+    </div>
+
+    <div class="card">
+        <a href="">购物车<div class="num">0</div></a>
+        </div>
+
+    </div>
+</div>
+<div class="menu">
+    <div class="nav">
+        <div class="navs">
+            <div class="left_nav">
+                全部商品分类
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="Dbox">
+    <div class="box">
+        <div class="left">
+            <div class="timg"><img  id="img" alt=""></div>
+            <div class="timg2">
+                <div class="lf"><img src="images/lf.jpg" alt=""></div>
+                <div class="center">
+                    <span><img src="/images/aa.jpg" alt="" width="50"></span>
+                    <span><img src="/images/bb.jpg" alt="" width="50"></span>
+                    <span><img src="/images/cc.jpg" alt="" width="50"></span>
+                    <span><img src="/images/dd.jpg" alt="" width="50"></span>
+                    <span><img src="/images/ee.jpg" alt="" width="50"></span>
+                </div>
+                <div class="rg"><img src="images/rg.jpg" alt=""></div>
+            </div>
+            <div class="goods"><img src="images/img_6.jpg" alt=""></div>
+        </div>
+        <div class="cent">
+            <div class="title">[[${session.mallSku.shpmch}]]</div>
+            <div class="bg">
+                <p>市场价：<strong>￥[[${session.mallSku.price}]]</strong></p>
+                <p>促销价：<strong>￥[[${session.mallSku.price}]]</strong></p>
+            </div>
+            <div style='color: red '>
+            <p>商品描述：<strong>[[${session.mallSku.msh}]]</strong></p>
+
+            </div>
+
+            <div class="clear" style="margin-top:20px;">
+                <div class="min_t" style="line-height:36px">数量：</div>
+                <div class="num_box">
+                    <input type="text" name="num" value="1" style="width:40px;height:32px;text-align:center;float:left">
+                    <div class="rg">
+                        <img src="images/jia.jpg" id="jia" alt="">
+                        <img src="images/jian.jpg" id="jian" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="clear" style="margin-top:20px;">
+                <img src="images/mai.jpg" alt="">
+                <img src="images/shop.jpg" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="Dbox1">
+    <div class="boxbottom">
+        <div class="top">
+            <span>商品详情</span>
+            <span>评价</span>
+        </div>
+        <div class="btm">
+           外观精美， 运行流畅，价格也很接地气，很nice
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="top"></div>
+    <div class="bottom"><img src="images/foot.jpg" alt=""></div>
+</div>
+
+</body>
+</html>

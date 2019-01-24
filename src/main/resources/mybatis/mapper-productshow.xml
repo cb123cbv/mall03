@@ -4,6 +4,7 @@
 
     <select id="getProductShow" resultType="com.jk.bean.Mall_Sku">
 SELECT
+    sk.Id,
 	pro.shp_mch shpmch,
   ma.shxm_mch  shxmmch,
   mv.shxzh_mch shxzhmch,
@@ -51,5 +52,20 @@ and  pro.flbh1=#{id} GROUP BY pro.shp_mch
 
     <select id="getAttrValue" resultType="com.jk.bean.Attr_value">
         SELECT * from t_mall_value where shxm_id = #{id}
+    </select>
+
+    <select id="getShowPage" resultType="com.jk.bean.Mall_Sku">
+        SELECT
+        pro.shp_mch shpmch,
+        sk.jg price,
+        pro.shp_tp img,
+        pro.shp_msh msh
+        FROM
+        t_mall_sku sk,
+        t_mall_product pro
+        WHERE
+        sk.shp_id = pro.Id
+        and sk.Id=#{id}
+
     </select>
 </mapper>
