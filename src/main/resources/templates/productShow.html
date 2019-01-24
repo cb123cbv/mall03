@@ -44,6 +44,7 @@
             }
         });
     }
+    var iiid = 0;
     function queryShuxing(id2) {
         $.ajax({
             url: "/getAttrValue",
@@ -52,7 +53,6 @@
             success: function (result) {
                 console.log(result);
                 var cont="";
-                var iiid = 0;
                 $.each(result,function (index,obj) {
                     iiid++;
                     cont += "<div class='list' id='"+iiid+"'>";
@@ -63,7 +63,7 @@
                     cont += "</div>"
                 })
 
-                $("#divId1").html(cont);
+                $("#divId1").append(cont);
             },
             error: function () {
                 alert("失败了");
@@ -71,22 +71,32 @@
         });
     }
     function addup(index,a,b) {
-        var cont = '<span class="gt">&gt;</span>';
-        cont += '<div id="classid2" class="filter_div">';
-        cont += a+':'+b;
+        var ppp = 0;
+        ppp = index;
+        //var cont = '<span class="gt">&gt;</span>';
+        var cont = '<div id="classid4" onclick="getRome('+ppp+')" class="filter_div">';
+        cont += '>'+a+':'+b;
         cont += '</div>';
         //alert(cont);
         $('#filterid').append(cont);
-        $('#'+index).remove();
+        $('#'+index).hide();
+    }
+    function getRome(qqqq){
+        $("#classid4").remove();
+        $('#'+qqqq).show();
     }
     function addup1(name) {
-        var cont = '<span class="gt">&gt;</span>';
-        cont += '<div id="classid2" class="filter_div">';
-        cont += '品牌:'+name;
+        //var cont = '<span class="gt">&gt;</span>';
+        var cont = '<div id="classid3" onclick="getRome1()" class="filter_div">';
+        cont += '>品牌:'+name;
         cont += '</div>';
         //alert(cont);
         $('#filterid').append(cont);
-        $('#divId').remove();
+        $('#divId').hide();
+    }
+    function getRome1(){
+        $("#classid3").remove();
+        $("#divId").show();
     }
     function productShow(id) {
 
@@ -99,7 +109,7 @@
                  var content="";
                 $.each(result,function (index,obj) {
                     content="<div class=\"list\"   >"
-                    content+="<div class=\"img\"><img src='/"+obj.img+"' ></div>"
+                    content+="<div class=\"img\"><a href='/getShowPage?id="+obj.id+"'><img src="+obj.img+" ></a></div>"
                     content+="<div style='color: red '>"+obj.shpmch+"</div>"
                     content+="<div class=\"price\">￥"+obj.price+"</div>"
                     content+="<div class=\"title\">"+obj.shxmmch+"&nbsp;"+obj.sxz+obj.shxmmch+"</div>"

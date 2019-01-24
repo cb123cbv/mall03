@@ -6,9 +6,11 @@ import com.jk.bean.T_mall_trade_mark;
 import com.jk.service.ProductShowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -44,5 +46,15 @@ public class ProductShowController {
     public List<Mall_attr> getAttrValueName(Integer id){
         List<Mall_attr> list =  productShowService.getAttrValueName(id);
         return list;
+    }
+
+
+
+
+    @RequestMapping("getShowPage")
+    public String getShowPage(String id, HttpSession session){
+        Mall_Sku mall_Sku=  productShowService.getShowPage(id);
+        session.setAttribute("mallSku",mall_Sku);
+        return  "showPage";
     }
 }
