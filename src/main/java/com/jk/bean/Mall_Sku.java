@@ -29,5 +29,6 @@ public class  Mall_Sku {
     private  String adress;      //仓库地址
     private  String img;         //图片
     private  String price;       //价格
+    private  String msh;         //描述
 
 }

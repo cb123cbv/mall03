@@ -51,4 +51,10 @@ public class ProductShowServiceImpl implements ProductShowService {
         }
         return list1;
     }
+
+    @Override
+    public Mall_Sku getShowPage(String id) {
+
+        return productShowMapper.getShowPage(id);
+    }
 }
