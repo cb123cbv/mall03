@@ -3,7 +3,6 @@ package com.jk.controller;
 import com.jk.bean.Constant;
 import com.jk.bean.QueryParam;
 import com.jk.service.CarService;
-
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,7 +72,6 @@ public class CarController {
     @RequestMapping("queryCar")//HttpServletRequest取cookie,HttpServletResponse存cookie
     public List<QueryParam> queryCar(HttpServletRequest request) {
         List<QueryParam> queryParams=null;
-
         Boolean exiskey = redisTemplate.hasKey(Constant.redis_List);
         if (exiskey) {// 内存里有tree数据
             // 内存中有树的数据 取出数据
