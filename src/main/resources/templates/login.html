@@ -12,11 +12,14 @@
     <script type="text/javascript" src="/js/easyui1.5/jquery.easyui.min.js"></script>
     <script type="text/javascript">
      $(function(){
-
-         if($("#loginZd").is(':checked')==true){
+         xz();
+         var user="[[${decode2}]]"
+         if(user=="on"){
              $.messager.confirm('提示','确认自动登陆吗？',function(r){
                  if (r){
                      to_submit();
+                 }else{
+                     $("#loginZd").prop("checked",false);
                  }
              });
 
@@ -39,7 +42,15 @@
                 }
             });
         }
-
+     function xz(){
+         var a=$('[name="user_pwd"]:checked').val();
+        if(a=="on"){
+            $('#loginZd').attr("disabled",false);
+        }else{
+            $('#loginZd').attr("disabled",true);
+            $("#loginZd").prop("checked",false);
+        }
+     }
     </script>
 </head>
 <body>
@@ -72,11 +83,11 @@
         <div class="blank_01"></div>
         <div class="blank_01"></div>
         <div style="float: left;width: 220px"  >
-            <input type="checkbox" class="box_01_box" name="user_pwd" th:checked="${password}==null?'false':'checked'"/>
+            <input type="checkbox"  class="box_01_box" name="user_pwd" th:checked="${password}==null?'false':'checked'" onclick="xz()"/>
             记住密码
         </div>
             <div style="float: left">
-                <input type="checkbox" class="box_02_box" id="loginZd" th:checked="${password}==null?'false':'checked'"/>
+                <input type="checkbox" disabled="disabled" class="box_02_box" name="loginZd" id="loginZd" th:checked="${decode2}==null?'false':'checked'"/>
                 自动登录
         </div>
         </form>
