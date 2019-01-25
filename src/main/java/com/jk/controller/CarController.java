@@ -42,6 +42,7 @@ public class CarController {
         }
 
         if (cookies != null) {
+            String loginAcct="";
             for (Cookie cookie : cookies) {
                 //判断购物车的cookie是否存在
                 if (cookie.getName().equals(Constant.car_cookie)) {//存在,把sku存进去
@@ -51,6 +52,7 @@ public class CarController {
                     newcookie.setPath("/");
                     //此时的cookie还在服务器上 要发送到浏览器上 通过响应对象
                     response.addCookie(newcookie);
+                    //redisTemplate.delete();
                     return "1";
                 }
             }

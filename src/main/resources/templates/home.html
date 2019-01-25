@@ -183,7 +183,6 @@
 
     })
 
-
     // 获取cookie里的昵称，账号
     function getCookie(){
         var str = document.cookie;
@@ -191,7 +190,7 @@
         $.each(arr, function (index, obj){
             var array = obj.split("=");
             if(array[0].trim()=="cookie_name2"){
-                //console.log(array[1]);//111-111
+                console.log(array[1]);//111-111
                 var ar = array[1].split("&");
                 var uname = ar[0];//111
                 var username = ar[1];//111

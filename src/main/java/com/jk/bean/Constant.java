@@ -12,7 +12,8 @@ public class Constant {
 
     public static final String car_cookie = "car_cookie";
     public static final String car_joint = "car_joint";
-    public static final String car_List = "car_List";
     public static final String redis_List = "redis_List";
+    public static final String cookie_name2 ="cookie_name2";
+
 
 }
