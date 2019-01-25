@@ -132,8 +132,8 @@
                 <div class="inner-user">
 
                     <a href="javascript:void(0)"><span id="kong" ></span></a>
-
-                    <a href="javascript:void(0)"><span id="name"></span></a>
+                    <input type="hidden" id="ningzi" th:value="${session.users?.userName}">
+                    <a href="javascript:void(0)"><span  id="uname"></span></a>
 
                 </div>
 
@@ -180,6 +180,8 @@
         queryImgInfo();
         queryTitle();
         getCookie();
+        $("#uname").append($("#ningzi").val());
+
     })
 
     // 获取cookie里的昵称，账号
@@ -193,7 +195,7 @@
                 var ar = array[1].split("&");
                 var uname = ar[0];//111
                 var username = ar[1];//111
-                //alert(username)
+               // alert(username)
                 $('[name="loginAcct"]').val(uname);//账号
                 $("#username").append(username);//名字
                // $("#uname").append(username);//名字
