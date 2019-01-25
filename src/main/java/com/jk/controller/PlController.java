@@ -34,7 +34,7 @@ public class PlController {
  @ResponseBody
  @RequestMapping("addPl")
  public String addPl(Mall_product_comment m, HttpSession session){
-  Users user = (Users) session.getAttribute("user");
+  Users user = (Users) session.getAttribute("users");
   if(user!=null){
    m.setYh_id(user.getId());
   }
