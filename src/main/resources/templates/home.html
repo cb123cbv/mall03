@@ -130,13 +130,19 @@
             <div class="gold-top">
                 <img width="62px" height="62px" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548349745874&di=e0a4c277a63677692b958a3d63272e21&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201508%2F10%2F20150810000854_W3AfZ.jpeg" />
                 <div class="inner-user">
-                    <h3>这是用户名</h3>
+
+                    <a href="javascript:void(0)"><span id="kong" ></span></a>
+
+                    <a href="javascript:void(0)"><span id="name"></span></a>
+
                 </div>
+
+
             </div>
 
             <div class="login">
-                <a class="login-btn" href="#"><i class="fa fa-user fa-user-loc"></i>登陆</a>
-                <a class="login-btn free" href="#">免费注册</a>
+                <a class="login-btn" href="/login/toLogin2"><i class="fa fa-user fa-user-loc"></i>登陆</a>
+                <a class="login-btn free" href="/login/toRegist">免费注册</a>
 
             </div>
 
@@ -183,13 +189,19 @@
         $.each(arr, function (index, obj){
             var array = obj.split("=");
             if(array[0].trim()=="cookie_name2"){
-                //console.log(array[1]);//111-111
+                console.log(array[1]);//111-111
                 var ar = array[1].split("&");
                 var uname = ar[0];//111
                 var username = ar[1];//111
                 alert(username)
-                $('[name="loginAcct"]').val(uname);
-                $("#username").append(username);
+                $('[name="loginAcct"]').val(uname);//账号
+                $("#username").append(username);//名字
+               // $("#uname").append(username);//名字
+                if(username!=null){
+                    $("#name").append(username);//名字
+                }else{
+                    $("#kong").append('hi,你好');
+                }
             }
         })
     }
