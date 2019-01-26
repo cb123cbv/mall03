@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="/js/jquery-2.1.1.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/css.css">
+    <link rel="stylesheet" type="text/css" href="css/css.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 
@@ -56,11 +57,13 @@
                 $.each(result,function (index,obj) {
                     content+="<tr>"
                     content+="<td>"+obj.id+"</td>"
-                    content+="<td>"+obj.shpmch+"</td>"
-                    content+="<td>"+obj.shxmmch+"&nbsp;"+obj.sxz+obj.shxzhmch+"</td>"
-                    content+="<td>"+obj.adress+"</td>"
-                    content+="<td><img src="+obj.img+" width='60px'></td>"
-                    content+="<td>￥"+obj.price+"</td>"
+                    content+="<td>"+obj.sku_mch+"</td>"
+                    content+="<td>"+obj.sku_jg+"</td>"
+                    content+="<td>"+obj.tjshl+"</td>"
+                    content+="<td>"+obj.chjshj+"</td>"
+                    content+="<td>"+obj.shfxz+"</td>"
+                    content+="<td><img src="+obj.shp_tp+" width='60px'></td>"
+                    content+="<td>￥"+obj.kcdz+"</td>"
                     content+="</tr>"
                 })
                 $("#cart").html(content);
