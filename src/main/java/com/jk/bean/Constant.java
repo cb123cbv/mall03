@@ -15,5 +15,8 @@ public class Constant {
     public static final String redis_List = "redis_List";
     public static final String cookie_name2 ="cookie_name2";
 
+    public static final String uuid ="uuid";//用户未登录的缓存id
+    public static final String carRedisid ="carRedisid";//用户已登录的缓存id
+
 
 }
