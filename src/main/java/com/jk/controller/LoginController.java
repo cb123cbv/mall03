@@ -55,6 +55,17 @@ public class LoginController {
             cookie.setPath("/");
             response.addCookie(cookie);
         }
+        if(users.getLoginZd()!=null) {
+            Cookie cookie2 = new Cookie(Contant.zddl, users.getLoginZd());
+            cookie2.setMaxAge(604800);
+            cookie2.setPath("/");
+            response.addCookie(cookie2);
+        }else{
+            Cookie cookie2 = new Cookie(Contant.zddl,null);
+            cookie2.setMaxAge(0);
+            cookie2.setPath("/");
+            response.addCookie(cookie2);
+        }
         session.setAttribute("users", usersDb);
         return "1";
     }
@@ -72,6 +83,13 @@ public class LoginController {
                     model.addAttribute("password", users.getUserPswd());
                     session.setAttribute("name", users);
             }
+                if (cookie.getName().equals(Contant.zddl)) {
+                    String decode2 = URLDecoder.decode(cookie.getValue(), "utf-8");
+                    System.out.println(decode2);
+                    model.addAttribute("decode2", decode2);
+            }else{
+                    model.addAttribute("decode2", null);
+                }
             }
 
         }

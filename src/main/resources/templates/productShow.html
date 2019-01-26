@@ -24,7 +24,38 @@
         queryPp(id);
         queryShuxing(id2);
         productShow(id)
+        getCookie();
     })
+    // 获取cookie里的昵称，账号
+    function getCookie(){
+        var id = $("#titleName").val();
+        var str = document.cookie;
+        var arr = str.split(";");
+        $.each(arr, function (index, obj){
+            if(arr==""){
+                $("#username").append($("#ningzi").val())
+            }
+            var array = obj.split("=");
+            if(array[0].trim()=="cookie_name2"){
+                console.log(array[1]);//111-111
+                var ar = array[1].split("&");
+                var uname = ar[0];//111
+                var username = ar[1];//111
+                // alert(username)
+                $('[name="loginAcct"]').val(uname);//账号
+                if(id==""){
+                    $("#username").append(username+"请登录");
+                }else{
+                    $("#username").append(username)
+                }
+                if(username!=null){
+                    $("#name").append(username);//名字
+                }else{
+                    $("#kong").append('hi,你好');
+                }
+            }
+        })
+    }
 
 	function queryPp(id) {
         $.ajax({
@@ -126,14 +157,14 @@
 
         })
     }
+
 </script>
 <body>
 <div class="top">
     <div class="top_text">
-        <a href="">用户登录</a>
-        <a href="">用户注册</a>
-        <a href="">供应商登录</a>
-        <a href="">供应商注册</a>
+        <a href="/login/toLogin2">用户登录</a>
+        <a href="/login/toRegist">用户注册</a>
+        <a href="javascript:void(0)">你好,<span id="username"></span></a>
     </div>
 </div>
 <div class="top_img" style="background-color:#ff9933">
@@ -244,6 +275,8 @@
         <span class="list_span">上架时间</span>
     </div>
 </div>
+<input type="hidden" id="ningzi" th:value="${session.users?.userName}">
+<input type="hidden" id="titleName" th:value="${session.users?.userName}">
 <div class="Sbox" id="aa">
 
 

@@ -1,9 +1,10 @@
 package com.jk.controller;
 
 import com.jk.bean.Constant;
+import com.jk.bean.Mall_shoppingCar;
 import com.jk.bean.QueryParam;
+import com.jk.bean.Users;
 import com.jk.service.CarService;
-
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -20,50 +24,82 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("car")
 public class CarController {
 
+
     @Resource
     private CarService carService;
     @Resource
-    private RedisTemplate<String, List<QueryParam>> redisTemplate;
+    private RedisTemplate<String, List<Mall_shoppingCar>> redisTemplate;
 
-
-    //sku存入cookie
+    //加入购物车
     @ResponseBody
-    @RequestMapping("queryCookie")//HttpServletRequest取cookie,HttpServletResponse存cookie
-    public String queryCookie(String sku, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("addCar")//HttpServletRequest取cookie,HttpServletResponse存cookie
+    public String queryCookie(Integer sku, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
-            //不存在创建一个购物车的cookie
-            Cookie newcookie = new Cookie(Constant.car_cookie, sku);
-            newcookie.setMaxAge(7200);//保存两个小时
-            newcookie.setPath("/");
-            //此时的cookie还在服务器上 要发送到浏览器上 通过响应对象
-            response.addCookie(newcookie);
+        String s = carService.judgeCookie2(Constant.uuid, cookies);
+        Users users = (Users) session.getAttribute("users");
 
-        }
+        //用户已登录
+        if (users != null) {
+            Mall_shoppingCar car = carService.queryCar(sku);
 
-        if (cookies != null) {
-            String loginAcct="";
-            for (Cookie cookie : cookies) {
-                //判断购物车的cookie是否存在
-                if (cookie.getName().equals(Constant.car_cookie)) {//存在,把sku存进去
-                    String carList = cookie.getValue() + Constant.car_joint + sku;//把值取出来
-                    Cookie newcookie = new Cookie(Constant.car_cookie, carList);//在存进去
-                    newcookie.setMaxAge(7200);//保存两个小时
-                    newcookie.setPath("/");
-                    //此时的cookie还在服务器上 要发送到浏览器上 通过响应对象
-                    response.addCookie(newcookie);
-                    //redisTemplate.delete();
-                    return "1";
+            //有值,遍历,看时候有重复
+            List<Mall_shoppingCar> mall_shoppingCars = carService.queryCarinfo();
+            Integer num = 0;
+            for (Mall_shoppingCar cars : mall_shoppingCars) {
+                if (cars.getSku_id().equals(sku)) {
+                    //cars.setTjshl(car.getTjshl() + 1);
+                    carService.updateCount(cars.getId());
+                    num = 1;
                 }
             }
-            //不存在创建一个购物车的cookie
-            Cookie newcookie = new Cookie(Constant.car_cookie, sku);
-            newcookie.setMaxAge(7200);//保存两个小时
-            newcookie.setPath("/");
-            //此时的cookie还在服务器上 要发送到浏览器上 通过响应对象
-            response.addCookie(newcookie);
+            if (num != 1) {
+                Mall_shoppingCar cars = carService.queryCar(sku);
+                carService.addCarInfo2(cars,users);
+            }
+
 
         }
+
+
+        //用户未登录
+        if (users == null) {
+            if (s.equals("2")) {//购物车上没有数据,去后台查询添加到redis
+                Mall_shoppingCar car = carService.queryCar(sku);
+                Cookie newcookie = new Cookie(Constant.uuid, "sssssss");//在存进去
+                newcookie.setMaxAge(7200);//保存两个小时
+                newcookie.setPath("/");
+                //此时的cookie还在服务器上 要发送到浏览器上 通过响应对象
+                response.addCookie(newcookie);
+                //redisTemplate.delete();
+                ArrayList<Mall_shoppingCar> cars = new ArrayList<>();
+                cars.add(car);
+                //将数据放入redis里
+                redisTemplate.opsForValue().set(Constant.uuid, cars, 120, TimeUnit.MINUTES);
+            } else {
+                Cookie newcookie = new Cookie(Constant.uuid, "sssssss");//在存进去
+                newcookie.setMaxAge(7200);//保存两个小时
+                newcookie.setPath("/");
+                //此时的cookie还在服务器上 要发送到浏览器上 通过响应对象
+                response.addCookie(newcookie);
+
+                //有值,遍历,看时候有重复
+                List<Mall_shoppingCar> cars = redisTemplate.opsForValue().get(Constant.uuid);
+                Integer num = 0;
+                for (Mall_shoppingCar car : cars) {
+                    if (car.getSku_id().equals(sku)) {
+                        car.setTjshl(car.getTjshl() + 1);
+                        num = 1;
+                    }
+                }
+                if (num != 1) {
+                    Mall_shoppingCar car = carService.queryCar(sku);
+                    cars.add(car);
+                }
+                redisTemplate.opsForValue().set(Constant.uuid, cars, 120, TimeUnit.MINUTES);
+            }
+        }
+
+
         return "1";
     }
 
@@ -71,46 +107,59 @@ public class CarController {
     //查看购物车
     @ResponseBody
     @RequestMapping("queryCar")//HttpServletRequest取cookie,HttpServletResponse存cookie
-    public List<QueryParam> queryCar(HttpServletRequest request) {
-        List<QueryParam> queryParams=null;
+    public List<Mall_shoppingCar> queryCar(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
+        List<Mall_shoppingCar> shoppingCar = null;
+        Cookie[] cookies = request.getCookies();
+        //用户登录,查询cookie,把缓存中的东西添加在数据库
+        Users users = (Users) session.getAttribute("users");
 
-        Boolean exiskey = redisTemplate.hasKey(Constant.redis_List);
-        if (exiskey) {// 内存里有tree数据
-            // 内存中有树的数据 取出数据
-            queryParams = redisTemplate.opsForValue().get(Constant.redis_List);
-        } else {// 内存中没有树的数据
-
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals(Constant.car_cookie)) {//把cookie取出来
-                        String[] cookieList = cookie.getValue().split(Constant.car_joint);
-                        String flag="";
-                        for (String s : cookieList) {
-                            flag+=","+s;
-                        }
-                        String ids = flag.substring(1);
-                        queryParams = carService.queryCar(ids);
-                        redisTemplate.opsForValue().set(Constant.redis_List, queryParams, 20, TimeUnit.MINUTES);
-
-                    }
+        //以登录,点击查看购物车,存入数据库中
+        if (users != null) {
+            String s = carService.judgeCookie2(Constant.uuid, cookies);
+            if (s.equals("1")) {
+                Boolean exis = redisTemplate.hasKey(Constant.uuid);
+                if (exis) {
+                    shoppingCar = redisTemplate.opsForValue().get(Constant.uuid);
+                    carService.addCarInfo(users, shoppingCar);
+                    redisTemplate.delete(Constant.uuid);
+                    Cookie newcookie = new Cookie(Constant.uuid, "sssssss");//在存进去
+                    newcookie.setMaxAge(0);
+                    newcookie.setPath("/");
+                    response.addCookie(newcookie);
                 }
-                return queryParams;
+            }
+
+            //以登录,点击查看购物车,查看缓存
+            Boolean exiskey = redisTemplate.hasKey(Constant.redis_List);//存在账号,查看redis中是否存在数据
+            if (exiskey) {
+                shoppingCar = redisTemplate.opsForValue().get(Constant.redis_List);
+            }else{
+                List<Mall_shoppingCar> mall_shoppingCars = carService.queryCarinfo();
+                redisTemplate.opsForValue().set(Constant.redis_List, mall_shoppingCars, 120, TimeUnit.MINUTES);
+                return mall_shoppingCars;
+            }
+
+
+        }
+
+        //未登录
+        if (users == null) {
+            String s = carService.judgeCookie2(Constant.uuid, cookies);
+            if (s.equals("1")) {
+                Boolean exiskey = redisTemplate.hasKey(Constant.uuid);//存在账号,查看redis中是否存在数据
+                if (exiskey) {
+                    shoppingCar = redisTemplate.opsForValue().get(Constant.uuid);
+                } else {
+                    shoppingCar = null;
+                }
+
+            } else {
+                shoppingCar = null;
             }
         }
-            return queryParams;
+
+        return shoppingCar;
     }
 
 
-
-
-
-
-
-
-
-
-
 }
-
-
