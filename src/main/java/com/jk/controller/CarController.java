@@ -2,7 +2,6 @@ package com.jk.controller;
 
 import com.jk.bean.Constant;
 import com.jk.bean.Mall_shoppingCar;
-import com.jk.bean.QueryParam;
 import com.jk.bean.Users;
 import com.jk.service.CarService;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -56,8 +54,7 @@ public class CarController {
                 Mall_shoppingCar cars = carService.queryCar(sku);
                 carService.addCarInfo2(cars,users);
             }
-
-
+            redisTemplate.delete(Constant.redis_List);
         }
 
 
