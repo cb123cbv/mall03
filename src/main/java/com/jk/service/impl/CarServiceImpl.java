@@ -47,15 +47,15 @@ public class CarServiceImpl implements CarService {
 
         for (Mall_shoppingCar car : shoppingCar) {
             for (Mall_shoppingCar car2 : carList) {
-                if(car.getSku_id()==car2.getSku_id()){
+                if(car.getSku_id().equals(car2.getSku_id())){
                     carMapper.updateCount(car2.getId());
-                    car.setId(0);
+                    car.setSku_mch("hhh");
                 }
             }
         }
 
         for (Mall_shoppingCar mall_shoppingCar : shoppingCar) {
-            if(mall_shoppingCar.getId()!=0){
+            if(!mall_shoppingCar.getSku_mch().equals("hhh")){
                 carMapper.addCarInfo(mall_shoppingCar,users);
             }
         }
