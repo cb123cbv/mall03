@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-2.1.1.min.js"></script>
+</head>
+<script type="text/javascript">
+
+
+function voice(){
+    $.ajax({
+        url:"/voice",
+        type:"POST",
+        data:{AUDIO_FILE_PATH:$("[name='AUDIO_FILE_PATH']").val()},
+        success:function(pageUtil){
+
+        },
+        error:function(){
+            alert("失败了");
+        }
+    })
+}
+
+</script>
+<body>
+<form>
+    <input type="file" name="AUDIO_FILE_PATH">
+</form>
+<input type="button" onclick="voice()"  value="提交">
+</body>
+</html>
