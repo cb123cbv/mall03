@@ -121,7 +121,7 @@ $(function () {
 
     function addcar(){
         $.ajax({
-            url:"/car/queryCookie",
+            url:"/car/addCar",
             type:"POST",
             data:{sku:qqqq},
             success:function(data){
@@ -138,12 +138,6 @@ $(function () {
         });
 
     }
-
-
-
-
-
-
 
 </script>
 <style type="text/css">
@@ -175,7 +169,6 @@ $(function () {
     <div class="top_img" style="background-color:#ff9933">
         <img src="//m.360buyimg.com/babel/jfs/t1/27825/39/6000/28861/5c45676bEaaecfc4b/58a017e7412beb55.png">
     </div>
-
     <div class="card">
         <a href="/test/toView?url=cartPage">购物车<div class="num">0</div></a>
         </div>
