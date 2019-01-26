@@ -56,8 +56,7 @@ public class CarController {
                 Mall_shoppingCar cars = carService.queryCar(sku);
                 carService.addCarInfo2(cars,users);
             }
-
-
+            redisTemplate.delete(Constant.redis_List);
         }
 
 
