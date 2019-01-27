@@ -56,12 +56,10 @@
                 var content="";
                 $.each(result,function (index,obj) {
                     content+="<tr>"
-                    content+="<td>"+obj.id+"</td>"
+
                     content+="<td>"+obj.sku_mch+"</td>"
                     content+="<td>"+obj.sku_jg+"</td>"
                     content+="<td>"+obj.tjshl+"</td>"
-                    content+="<td>"+obj.chjshj+"</td>"
-                    content+="<td>"+obj.shfxz+"</td>"
                     content+="<td><img src="+obj.shp_tp+" width='60px'></td>"
                     content+="<td>￥"+obj.kcdz+"</td>"
                     content+="</tr>"
@@ -114,12 +112,12 @@
     <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
-            <th>商品编号</th>
+
             <th>商品名称</th>
-            <th>商品属性</th>
-            <th>商品仓库地址</th>
-            <th>商品图片</th>
             <th>商品价格</th>
+            <th>商品数量</th>
+            <th>商品图片</th>
+
         </tr>
         </thead>
         <tbody id="cart">
