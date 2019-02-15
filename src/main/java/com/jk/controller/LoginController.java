@@ -4,6 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.jk.bean.Users;
 import com.jk.service.LoginClientService;
 import com.jk.utils.Contant;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -24,6 +28,9 @@ import java.net.URLEncoder;
 public class LoginController {
     @Resource
     private LoginClientService loginClientService;
+
+    @Autowired
+    private JavaMailSender sender;
 
     @ResponseBody
     @RequestMapping("login")
@@ -97,13 +104,45 @@ public class LoginController {
         return "login";
     }
 
+
+    @RequestMapping("sendSimpleMail")
+    @ResponseBody
+    public String sendSimpleMail(String email,HttpSession session){
+        if(StringUtils.isEmpty(email)){
+            return "2";
+        }
+        SimpleMailMessage message = new SimpleMailMessage();
+        // 产生一个4位验证码
+        int r = (int) (Math.random() * 8999) + 1000;
+        message.setFrom("zhang1009603379@163.com"); // 必须要和上文配置的spring.mail.username内容相同
+        message.setTo(email);
+        message.setSubject("注册");
+        message.setText(r+"");
+        sender.send(message);
+        session.setAttribute("yzm2",r+"");
+        return "1";
+    }
+
+
+
+
+
     @ResponseBody
     @RequestMapping("addUsers")
-    public String addUsers(Users users) {
-        if(StringUtils.isEmpty(users.getLoginAcct())&&StringUtils.isEmpty(users.getUserPswd())){
+    public String addUsers(Users users,String code,HttpSession session) {
+        if(StringUtils.isEmpty(users.getLoginAcct())||StringUtils.isEmpty(users.getUserPswd())){
             return "0";
         }
-
+        if(StringUtils.isEmpty(users.getEmail())){
+            return "3";
+        }
+        if(StringUtils.isEmpty(code)){
+            return "4";
+        }
+        String yzm2 = (String) session.getAttribute("yzm2");
+        if(!code.equals(yzm2)){
+            return "5";
+        }
 
         Users usersDb = loginClientService.getloginAcct(users);
         if (usersDb != null) {

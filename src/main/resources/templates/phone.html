@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="/js/jquery-2.0.3.min.js"></script>
+    <link rel="shortcut icon" type="image/icon" href="/images/jd.ico">
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+
+
+    <!-- 引入bootstrap -->
+    <link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+    <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+    <!-- bootstrap-bootstrap-table -->
+    <script src="/js/bootstrap-3.3.7-dist/bootstrap-table/bootstrap-table.js"></script>
+    <script src="/js/bootstrap-3.3.7-dist/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <link rel="stylesheet" href="/js/bootstrap-3.3.7-dist/bootstrap-table/bootstrap-table.css">
+
+
+    <!-- layer -->
+    <script src="/js/layer/layer.js"></script>
+    <script type="text/javascript" th:inline="none">
+
+        var temp = null;//为了其他方法能改变temp的值
+        function yzm() {
+            //alert(111);
+            $.ajax({
+                url: "/phone/sendCode",
+                type: "POST",
+                data: $("#form_id").serialize(),
+                success: function (result) {
+                    var data=result.code;
+                    if (data == 1) {
+
+                        layer.alert("<font color='red'>发送成功,注意查看手机</font>", {icon: 1});
+                        $("#sendCode").prop("disabled", true);//true禁用
+                        temp = setInterval("changeBtnText()", 1000);//setInterval可以设置每隔多少毫米调取一个方法
+
+                    }
+                    if (data == 2) {
+                        layer.alert("<font color='red'>验证码已发送,请查看手机</font>", {icon: 3});
+                        $("#sendCode").prop("disabled", true);//true禁用
+                        temp = setInterval("changeBtnText()", 1000);//setInterval可以设置每隔多少毫米调取一个方法
+                    }
+                    if (data == 3) {
+                        layer.alert("<font color='red'>用户名不正确</font>", {icon: 5});
+                    }
+                    if (data == 4) {
+                        layer.alert("<font color='red'>一天的登录次数超过三次,明天再登</font>", {icon: 5});
+                    }
+                    if (data == 5) {
+                        layer.alert("<font color='red'>黑名单用户,拒绝登录</font>", {icon: 5});
+                    }
+                },
+                error: function () {
+                    alert("失败了");
+                }
+            });
+        }
+
+
+        var time = 10;
+
+        function changeBtnText() {
+            // alert(1111);
+            time--;
+            $("#sendCode").html("剩余" + time + "秒");
+            if (time == 0) {
+                time = 10//重新赋值
+                $("#sendCode").prop("disabled", false);//false可用
+                $("#sendCode").html("重新发送");
+                clearInterval(temp)//关闭倒计时
+            }
+        }
+
+        function tologin() {
+            window.location.href = "/test/toView?url=login";
+        }
+
+
+
+        function to_submit(){
+            $.ajax({
+                url:"/phone/login",
+                type:"POST",
+                async:true,
+                data:$("#form_id").serialize(),
+                success:function(result){
+                    if(result==1){
+                        location.href="/test/toView?url=home";
+                        alert("成功")
+                    }
+                    if(result==0){
+                        layer.alert("<font color='red'>用户不存在</font>", {icon: 5});
+                    }
+                    if(result==2){
+                        layer.alert("<font color='red'>请输入账号或验证码</font>", {icon: 5});
+                    }
+                    if(result==3){
+                        layer.alert("<font color='red'>验证码不正确</font>", {icon: 5});
+                    }
+                },
+                error:function(){
+                    alert("失败了");
+                }
+            });
+        }
+
+
+    </script>
+</head>
+<body>
+<div class="up">
+    <img src="//img20.360buyimg.com/da/jfs/t1/23377/26/6007/190377/5c46b6dcE6a2e665e/323a50ca6adbc492.gif?t=1548224782175"
+         width="70px" height="45px;" class="hy_img">
+    <div class="hy">
+        欢迎登录
+    </div>
+</div>
+<div class="middle">
+    <div class="login">
+        <div class="l1 ">
+            <div class="l1_font_01 ">硅谷会员</div>
+            <a class="l1_font_02 " href="/login/toRegist">用户注册</a>
+        </div>
+        <div class="blank_01"></div>
+        <form id="form_id" method="post">
+            <div class="input1">
+                <input type="text" class="input1_01" name="loginAcct"   placeholder="  请输入用户名"/>
+            </div>
+            <div class="blank_01"></div>
+            <div class="blank_01"></div>
+            <div class="input2">
+                <input type="text" class="input1_01" name="phone_no"   placeholder="  请输入手机号"/>
+            </div>
+
+            <div class="blank_01"></div>
+            <div class="blank_01"></div>
+
+            <div style="float: left">
+                <input type="text" name="verify_code" size="10" style="width: 170px;height: 35px" placeholder="  请输入验证码">
+            </div>
+            <div style="float: left;margin-left: 5px">
+                <button type="button" id="sendCode" onclick="yzm()" style="width: 100px" class="btn btn-primary">发送验证码</button>
+            </div>
+
+
+        </form>
+        <div class="blank_01"></div>
+        <a href="#" class="aline">
+            <div class="red_button" onclick="to_submit()">
+                登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录
+            </div>
+        </a>
+        <div class="blank_01"><a href="javascript:void(0)" onclick="tologin()">普通登录</a></div>
+        <div class="blank_01"></div>
+
+
+    </div>
+</div>
+
+<div class="down">
+    <br/>
+    Copyright©2004-2015 xu.jb.com 版权所有
+</div>
+</body>
+</html>

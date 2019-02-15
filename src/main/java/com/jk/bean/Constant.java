@@ -19,4 +19,6 @@ public class Constant {
     public static final String carRedisid ="carRedisid";//用户已登录的缓存id
 
 
+    public static final String phone_code="phone_code";//用户发送验证码的手机号
+    public static final String  multiple_code="multiple_code";//记录用户发送验证码的次数
 }

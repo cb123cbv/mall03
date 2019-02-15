@@ -51,6 +51,15 @@
             $("#loginZd").prop("checked",false);
         }
      }
+
+     function tologin(){
+
+         window.location.href = "/test/toView?url=phone";
+
+     }
+
+
+
     </script>
 </head>
 <body>
@@ -90,6 +99,8 @@
                 <input type="checkbox" disabled="disabled" class="box_02_box" name="loginZd" id="loginZd" th:checked="${decode2}==null?'false':'checked'"/>
                 自动登录
         </div>
+
+
         </form>
         <div class="blank_01"></div>
         <a href="#" class="aline">
@@ -97,6 +108,7 @@
                 登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录
             </div>
         </a>
+        <div class="blank_01"><a href="javascript:void(0)" onclick="tologin()">手机登录</a></div>
         <div class="blank_01"></div>
         <div class="blank_01"></div>
 

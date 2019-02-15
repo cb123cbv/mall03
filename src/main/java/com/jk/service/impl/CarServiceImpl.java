@@ -81,11 +81,6 @@ public class CarServiceImpl implements CarService {
 
 
 
-
-
-
-
-
     /*//购物车cookie存在,存sku
     @Override
     public void updateCookie(String s, Cookie[] cookies, String sku, HttpServletResponse response) {
