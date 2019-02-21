@@ -45,9 +45,8 @@
             }
         })
     }
-      
+      var zjg=0;
     function getCart() {
-
         $.ajax({
             url:"/car/queryCar",
             type:"POST",
@@ -58,7 +57,6 @@
                 var jg=0;
                 $.each(result,function (index,obj) {
                     content+="<tr>"
-
                     content+="<td>"+obj.sku_mch+"</td>"
                     content+="<td>"+obj.sku_jg+"</td>"
                     content+="<td>"+obj.tjshl+"</td>"
@@ -68,6 +66,7 @@
                     sl= parseInt(sl)+parseInt(obj.tjshl);
                     jg=parseInt(jg)+parseInt(obj.sku_jg)*parseInt(obj.tjshl);
                 })
+                zjg=jg;
                 $("#cart").html(content);
                 $("#js").html(sl);
                 $(".price").append("<font color='red'>￥"+jg+"</font>");
@@ -76,6 +75,9 @@
                 alert("失败了");
             }
         })
+    }
+    function js(){
+        location.href="/pay/toPay?money="+zjg;
     }
 </script>
 <body style="zoom: 1;">
@@ -137,7 +139,7 @@
 </div>
 <div class="Cprice">
     <div class="price">总价:</div>
-    <div class="jiesuan">结算</div>
+    <div class="jiesuan" onclick="js()">结算</div>
 </div>
 <div class="footer">
     <div class="top"></div>

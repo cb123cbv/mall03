@@ -12,6 +12,7 @@
     <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script src="/js/bootstrap-3.3.7-dist/bootstrap-table/bootstrap-table.js"></script>
     <script src="/js/bootstrap-3.3.7-dist/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <script src="/js/layer/layer.js"></script>
 </head>
 <script type="text/javascript">
     var qqqq="";
@@ -209,6 +210,13 @@ $(function () {
      		}
      		})
     }
+    function gm(){
+      if("[[${session.users}]]"!=null&&"[[${session.users}]]"!=""){
+          location.href="/pay/toPay?money="+"[[${session.mallSku.price}]]"
+      }else{
+          alert("请先登录");
+      }
+    }
 </script>
 <style type="text/css">
     #panel,#flip
@@ -264,7 +272,6 @@ $(function () {
         </div>
     </div>
 </div>
-
 <div class="Dbox">
     <div class="box">
         <div class="left">
@@ -304,7 +311,7 @@ $(function () {
                 </div>
             </div>
             <div class="clear" style="margin-top:20px;">
-                <img src="images/mai.jpg" alt="">
+                <img src="images/mai.jpg" onclick="gm()">
                 <a href="javascript:void(0)"  onclick="addcar()"><img src="images/shop.jpg" alt=""></a>
             </div>
         </div>
