@@ -64,15 +64,8 @@
           			error:function(){
           				alert("失败了");
           			}
-          			});
-          	
-          	
-
+            });
       }
-
-
-
-
     </script>
 
 
@@ -131,13 +124,15 @@
         <div class="register-box">
             <!--表单项-->
             <div class="box default" >
-                <label >邮 箱 验 证</label>
-                <input type="text" name="email" placeholder="请输入邮箱" />
-
-                <i></i>
+                    <label >邮 箱 验 证</label>
+                    <input id="code1" type="text" name="email" placeholder="请输入邮箱" />
+                    <i></i>
+                <!--提示信息-->
+                <div class="tip">
+                    <i></i>
+                    <span></span>
+                </div>
             </div>
-
-
             <!--提示信息-->
             <div class="tip">
                 <i></i>
@@ -145,29 +140,21 @@
             </div>
         </div>
 
-
           <div class="register-box">
-              <!--表单项-->
-              <div class="box default" style="float: left;width: 250px" >
-                  <input type="text" name="code" placeholder="请输入验证码"  />
+              <div class="box default" >
+                  <label >验证码：</label>
+                  <input id="code" name="code" type="text" autocomplete="off" />
               </div>
               <div style="float: left">
-                  <button  onclick="sendEmail()" style="width: 100px;height: 54px">获取验证码</button>
+                  <!--<button  onclick="sendEmail()" style="width: 100px;height: 54px">获取验证码</button>-->
+                  <input id="btnSendCode1" type="button" value="获取验证码" onClick="sendEmail()" />
               </div>
-
-
-
-
           </div>
-
         <!--注册-->
-
       </form>
-
         <button id="btn" onclick="tijiao()">注册</button>
     </div>
 
 </div>
-
 </body>
 </html>

@@ -7,7 +7,6 @@ import com.jk.utils.Contant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -104,7 +103,6 @@ public class LoginController {
         return "login";
     }
 
-
     @RequestMapping("sendSimpleMail")
     @ResponseBody
     public String sendSimpleMail(String email,HttpSession session){
@@ -122,9 +120,6 @@ public class LoginController {
         session.setAttribute("yzm2",r+"");
         return "1";
     }
-
-
-
 
 
     @ResponseBody
@@ -163,6 +158,12 @@ public class LoginController {
         cookie.setPath("/");
         response.addCookie(cookie);
         return "regist";
+    }
+    @ResponseBody
+    @RequestMapping("clearSession")
+    public String clearSession(HttpSession session){
+        session.invalidate();
+        return "1";
     }
 
 }
