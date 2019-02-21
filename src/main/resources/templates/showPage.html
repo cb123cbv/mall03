@@ -65,40 +65,32 @@ $(function () {
         })
     }
 
-    function getPl(id) {
-        $('#table').bootstrapTable({
-            url:"/getPl",
-            striped: true,  //表格显示条纹，默认为false
-            method:"post",
-            contentType:"application/x-www-form-urlencoded",
-            toolbar:'#toolbar',
-            pagination: true, // 在表格底部显示分页组件，默认false
-            pageList: [2,3,4,6,8], // 设置页面可以显示的数据条数
-            pageSize: 4, // 页面数据条数
-            pageNumber: 1, // 首页页码
-            clickToSelect: false, //是否启用点击选中行
-            sidePagination: 'server', // 设置为服务器端分页(!!!!)
-            queryParams: function (params) { // 请求服务器数据时发送的参数，可以在这里添加额外的查询参数，返回false则终止请求
-                console.log(params)
-                return {
-                    pageSize: params.limit, // 每页要显示的数据条数
-                    offset: params.offset, // 每页显示数据的开始行号
-                    id:id
-                }
-            },
-            columns: [{
-                checkbox: true
-            }, {
-                field: 'username',
-                title: '用户'
-            }, {
-                field: 'plshj',
-                title: '评论时间'
-            },{
-                field: 'plnr',
-                title: '评论内容'
-            }]
-        })
+//---------------------------------------------------------------------------------------
+    function getPl(id){
+        var flag='';
+        $.ajax({
+        	url:"/getComment",
+        	type:"POST",
+        	data:{id:id},
+        	success:function(result){
+                $.each(result,function (val,obj) {
+
+                    flag+=' <div>'
+                    flag+='<font color="#a52a2a">'+obj.username+'</font>&nbsp;&nbsp;&nbsp;';
+                    flag+=''+obj.plshj+'';
+                    flag+='<br/><br/>';
+                    flag+=''+obj.plnr+'';
+                    flag+='<hr/>';
+                    flag+=' </div> '
+                })
+                console.log(flag)
+
+                $("#pinglun").html(flag);
+        	},
+        	error:function(){
+        		alert("失败了");
+        	}
+        });
     }
     $(document).ready(function(){
         $("#flip").click(function(){
@@ -212,6 +204,13 @@ $(function () {
      		}
      		})
     }
+    function gm(){
+      if("[[${session.users}]]"!=null&&"[[${session.users}]]"!=""){
+          location.href="/pay/toPay?money="+"[[${session.mallSku.price}]]"
+      }else{
+          alert("请先登录");
+      }
+    }
 </script>
 <style type="text/css">
     #panel,#flip
@@ -267,7 +266,6 @@ $(function () {
         </div>
     </div>
 </div>
-
 <div class="Dbox">
     <div class="box">
         <div class="left">
@@ -307,7 +305,7 @@ $(function () {
                 </div>
             </div>
             <div class="clear" style="margin-top:20px;">
-                <img src="images/mai.jpg" alt="">
+                <img src="images/mai.jpg" onclick="gm()">
                 <a href="javascript:void(0)"  onclick="addcar()"><img src="images/shop.jpg" alt=""></a>
             </div>
         </div>
@@ -668,7 +666,13 @@ $(function () {
             </div>
 
         </div>
-        <table id="table"></table>
+
+
+
+        <div id="pinglun" class="panel-body" >
+
+        </div>
+
     </div>
 
 

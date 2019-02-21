@@ -9,6 +9,7 @@
 </head>
 <script type="text/javascript">
     $(function () {
+        $("[name=\"search\"]").val("");
 		function getQueryString(name) {
             var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
             var r = window.location.search.substr(1).match(reg);
@@ -180,11 +181,54 @@
             }
         });
     }
+//搜索
+    function searchProduct(){
+        var search=$("[name=\"search\"]").val();
+        if(search!=''&&search!=null){
+            $.ajax({
+                url:"/queryProduct",
+                type:"POST",
+                data:{queryString:search},
+                success:function(result){
+                    $("#aa").html("");
+                    var content="";
+                    $.each(result,function (index,obj) {
+                        content="<div class=\"list\"   >"
+                        content+="<div class=\"img\"><a href='/getShowPage?id="+obj.id+"'><img src="+obj.img+" ></a></div>"
+                        content+="<div style='color: red '>"+obj.shpmch+"</div>"
+                        content+="<div class=\"price\">￥"+obj.price+"</div>"
+                        content+="<div class=\"title\">"+obj.shxmmch+"&nbsp;"+obj.sxz+obj.shxmmch+"</div>"
+                        content+="<div class=\"title\">"+obj.adress+"</div>"
+                        content+="</div>"
+                        $("#aa").append(content)
+                    })
+                },
+                error:function(){
+                    alert("失败了");
+                }
+            })
+        }else{
+            location.reload();
+        }
+    }
+    function clearSession(){
+        $.ajax({
+            url:"/login/clearSession",
+            type:"POST",
+            success:function(data){
+                location.reload()
+            },
+            error:function(){
+                alert("失败了");
+            }
+        });
+    }
 
 </script>
 <body>
 <div class="top">
     <div class="top_text">
+        <a href="javascript:clearSession()">退出</a>
         <a href="/login/toLogin2">用户登录</a>
         <a href="/login/toRegist">用户注册</a>
         <a href="javascript:void(0)">你好,<span id="username"></span></a>
@@ -199,7 +243,7 @@
     <div class="search_on">
         <div class="se">
             <input type="text" name="search" class="lf">
-            <input type="submit" class="clik" value="搜索">
+            <input type="submit" class="clik" value="搜索" onclick="searchProduct()">
         </div>
         <div class="se">
             <a href="">取暖神奇</a>
@@ -265,9 +309,6 @@
 <input type="hidden" id="ningzi" th:value="${session.users?.userName}">
 <input type="hidden" id="titleName" th:value="${session.users?.userName}">
 <div class="Sbox" id="aa">
-
-
-
 </div>
 <div class="footer">
     <div class="top"></div>
