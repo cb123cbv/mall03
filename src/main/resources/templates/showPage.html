@@ -16,6 +16,7 @@
 <script type="text/javascript">
     var qqqq="";
 $(function () {
+    gwcsl();
     $("#img").attr("src", "[[${session.mallSku.img}]]");
         function getQueryString(name) {
             var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
@@ -123,7 +124,7 @@ $(function () {
         $.ajax({
             url:"/car/addCar",
             type:"POST",
-            data:{sku:qqqq},
+            data:{sku:qqqq,sl:$("#sljj").val()},
             success:function(data){
                 if(data==1){
                     alert("加入购物车成功");
@@ -138,7 +139,76 @@ $(function () {
         });
 
     }
-
+//加减
+    function jiaorjian(type){
+    var  sl=parseInt($("#sljj").val());
+     if(type==1){
+         if(sl<10){
+             sl=sl+1;
+         }else{
+             alert("最多选择十件");
+         }
+         $("#sljj").val(sl)
+     }else{
+         if(sl>1){
+             sl=sl-1;
+         }else{
+             alert("至少选择一件")
+         }
+         $("#sljj").val(sl);
+     }
+    }
+    //购物车
+    function gwc(){
+        var sl=0;
+        var jg=0;
+        $.ajax({
+            url:"/car/queryCar",
+            type:"POST",
+            async:false,
+            success:function(result){
+                var count="<div class='cart_pro'>";
+                count+= "<h6>最新加入的商品</h6>";
+                $.each(result,function(index,obj){
+                    console.log(obj);
+                    count+= "<div class='one'>";
+                    count+='<img src="'+obj.shp_tp+'" width="40px" height="40px">';
+                    count+='<span class="one_name">'+obj.sku_mch+'</span>';
+                    count+='<span class="one_prece"><b>'+obj.sku_jg+'*'+obj.tjshl+'</b><br></span>';
+                    count+='</div>';
+                    sl= parseInt(sl)+parseInt(obj.tjshl);
+                    jg=parseInt(jg)+parseInt(obj.sku_jg)*parseInt(obj.tjshl)
+                    console.log(typeof(obj.tjshl))
+                })
+                count+='<div class="gobottom">';
+                count+='共<span>'+sl+'</span>件商品&nbsp;&nbsp;&nbsp;&nbsp';
+                count+='共计￥<span>'+jg+'</span>';
+                count+='<button class="goprice" onclick=\'location.href="/test/toView?url=cartPage"\'>去购物车</button>';
+                count+='</div>';
+                count+='</div>';
+                $(".card").append(count);
+            },
+            error:function(){
+                alert("失败了");
+            }
+        })
+    }
+    function gwcsl(){
+     $.ajax({
+     		url:"/car/queryCar",
+     		type:"POST",
+     		success:function(result){
+                var sl=0;
+                $.each(result,function(index,obj){
+                    sl= parseInt(sl)+parseInt(obj.tjshl);
+                })
+                $("#js").html(sl);
+     		},
+     		error:function(){
+     			alert("失败了");
+     		}
+     		})
+    }
 </script>
 <style type="text/css">
     #panel,#flip
@@ -179,12 +249,8 @@ $(function () {
             <a href="">玉兰油</a>
         </div>
     </div>
-    <div class="card">
-        <a href="/test/toView?url=cartPage">购物车<div class="num">0</div></a>
-
-
-
-
+    <div class="card" onmouseleave="$('.cart_pro').remove()">
+        <a href="/test/toView?url=cartPage" onmouseenter="gwc()">购物车<div class="num" id="js">0</div></a>
     </div>
 
 </div>
@@ -230,10 +296,10 @@ $(function () {
             <div class="clear" style="margin-top:20px;">
                 <div class="min_t" style="line-height:36px">数量：</div>
                 <div class="num_box">
-                    <input type="text" name="num" value="1" style="width:40px;height:32px;text-align:center;float:left">
+                    <input type="text" name="num" id="sljj" value="1" style="width:40px;height:32px;text-align:center;float:left">
                     <div class="rg">
-                        <img src="images/jia.jpg" id="jia" alt="">
-                        <img src="images/jian.jpg" id="jian" alt="">
+                        <img src="images/jia.jpg" id="jia" onclick="jiaorjian(1)">
+                        <img src="images/jian.jpg" id="jian" onclick="jiaorjian(2)">
                     </div>
                 </div>
             </div>
