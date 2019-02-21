@@ -159,5 +159,11 @@ public class LoginController {
         response.addCookie(cookie);
         return "regist";
     }
+    @ResponseBody
+    @RequestMapping("clearSession")
+    public String clearSession(HttpSession session){
+        session.invalidate();
+        return "1";
+    }
 
 }

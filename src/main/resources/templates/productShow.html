@@ -147,6 +147,7 @@
                     content+="<div style='color: red '>"+obj.shpmch+"</div>"
                     content+="<div class=\"price\">￥"+obj.price+"</div>"
                     content+="<div class=\"title\">"+obj.shxmmch+"&nbsp;"+obj.sxz+obj.shxmmch+"</div>"
+
                     content+="<div class=\"title\">"+obj.adress+"</div>"
                     content+="</div>"
                     $("#aa").append(content)
@@ -210,10 +211,24 @@
             location.reload();
         }
     }
+    function clearSession(){
+        $.ajax({
+            url:"/login/clearSession",
+            type:"POST",
+            success:function(data){
+                location.reload()
+            },
+            error:function(){
+                alert("失败了");
+            }
+        });
+    }
+
 </script>
 <body>
 <div class="top">
     <div class="top_text">
+        <a href="javascript:clearSession()">退出</a>
         <a href="/login/toLogin2">用户登录</a>
         <a href="/login/toRegist">用户注册</a>
         <a href="javascript:void(0)">你好,<span id="username"></span></a>
