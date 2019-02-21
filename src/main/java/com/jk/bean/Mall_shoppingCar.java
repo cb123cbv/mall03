@@ -11,7 +11,7 @@ public class Mall_shoppingCar implements Serializable{
     private Integer id;//(编号)          PKInteger
     private String sku_mch;//(sku名称)  String(100)//
     private Integer sku_jg;//(sku价格)   decimal//
-    private Integer tjshl=1;//(添加数量)   Integer
+    private Integer tjshl;//(添加数量)   Integer
     private Integer hj;//(合计)          decimal--
     private Integer yh_id=-1;//(用户id)     Integer//--
     private Integer shp_id;//(商品id)    Integer//--

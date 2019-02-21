@@ -12,6 +12,9 @@
     <script src="/js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script src="/js/bootstrap-3.3.7-dist/bootstrap-table/bootstrap-table.js"></script>
     <script src="/js/bootstrap-3.3.7-dist/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+
+    <!-- layer -->
+    <script src="/js/layer/layer.js"></script>
 </head>
 <script type="text/javascript">
     var qqqq="";
@@ -124,13 +127,13 @@ $(function () {
         $.ajax({
             url:"/car/addCar",
             type:"POST",
-            data:{sku:qqqq,sl:$("#sljj").val()},
+            data:{sku:"[[${session.mallSku.id}]]",sl:$("#sljj").val()},
             success:function(data){
                 if(data==1){
-                    alert("加入购物车成功");
+                    layer.alert("<font color='red'>加入购物车成功</font>", {icon: 1});
                 }
                 if(data==2){
-                    alert("请先登录!!!");
+                    layer.alert("<font color='red'>请先登录!!!</font>", {icon: 2});
                 }
             },
             error:function(){

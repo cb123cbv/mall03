@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="/js/easyui1.5/themes/default/easyui.css" type="text/css"></link>
     <link rel="stylesheet" href="/js/easyui1.5/themes/icon.css" type="text/css"></link>
     <script type="text/javascript" src="/js/easyui1.5/jquery.easyui.min.js"></script>
+
+    <!-- layer -->
+    <script src="/js/layer/layer.js"></script>
+
+
     <script type="text/javascript">
      $(function(){
          xz();
@@ -34,7 +39,7 @@
                 success:function(result){
                     if(result==1){
                         location.href="/test/toView?url=home";
-                        alert("成功")
+                        layer.alert("<font color='red'>登录成功</font>", {icon: 1});
                     }
                 },
                 error:function(){
