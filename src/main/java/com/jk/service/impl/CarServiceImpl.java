@@ -6,9 +6,7 @@ import com.jk.service.CarService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.naming.Name;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Service
@@ -43,22 +41,30 @@ public class CarServiceImpl implements CarService {
     //向数据库存入购物车
     @Override
     public void addCarInfo(Users users, List<Mall_shoppingCar> shoppingCar) {
-        List<Mall_shoppingCar> carList = carMapper.queryCarinfo();
-
-        for (Mall_shoppingCar car : shoppingCar) {
-            for (Mall_shoppingCar car2 : carList) {
-                if(car.getSku_id().equals(car2.getSku_id())){
-                    carMapper.updateCount(car2.getId());
-                    car.setSku_mch("hhh");
+        List<Mall_shoppingCar> carList = carMapper.queryCarinfo(users.getId());
+        if (carList.size()>0) {//如果数据库中的购物车有数据,将redis中的数据和数据库购物车
+            for (Mall_shoppingCar car : shoppingCar) {
+                for (Mall_shoppingCar car2 : carList) {
+                    if(car.getSku_id().equals(car2.getSku_id())){
+                        carMapper.updateCount(car2.getId(),car2.getTjshl());
+                        car.setSku_mch("hhh");
+                    }
                 }
             }
-        }
 
-        for (Mall_shoppingCar mall_shoppingCar : shoppingCar) {
-            if(!mall_shoppingCar.getSku_mch().equals("hhh")){
+            for (Mall_shoppingCar mall_shoppingCar : shoppingCar) {
+                if(!mall_shoppingCar.getSku_mch().equals("hhh")){
+                    carMapper.addCarInfo(mall_shoppingCar,users);
+                }
+            }
+        }else{//如果数据库中的购物车没有数据
+
+            for (Mall_shoppingCar mall_shoppingCar : shoppingCar) {
                 carMapper.addCarInfo(mall_shoppingCar,users);
             }
+
         }
+
 
     }
 
@@ -70,13 +76,13 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<Mall_shoppingCar> queryCarinfo() {
-        return carMapper.queryCarinfo();
+    public List<Mall_shoppingCar> queryCarinfo(Integer userid) {
+        return carMapper.queryCarinfo(userid);
     }
 
     @Override
-    public void updateCount(Integer id) {
-        carMapper.updateCount(id);
+    public void updateCount(Integer id, Integer sl) {
+        carMapper.updateCount(id,sl);
     }
 
 

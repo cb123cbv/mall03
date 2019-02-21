@@ -4,17 +4,17 @@
 
     <select id="queryCar" resultType="com.jk.bean.Mall_shoppingCar">
 SELECT
+  sk.id sku_id,
   pro.shp_mch sku_mch,
   sk.kcdz kcdz,
   pro.shp_tp shp_tp,
-  sk.jg sku_jg,
-  pro.id sku_id
+  sk.jg sku_jg
 FROM
 	t_mall_sku sk,
 	t_mall_product pro
 WHERE
- pro.id=#{id}   GROUP BY pro.shp_mch
-
+    sk.shp_id = pro.Id
+    and sk.Id=#{id}
     </select>
 
 <!-- void addCarInfo(@Param("car")Mall_shoppingCar car, @Param("users")Users users);-->
@@ -23,14 +23,14 @@ WHERE
   insert into t_mall_shoppingcar(sku_mch,sku_jg,tjshl,hj,yh_id,chjshj,shp_id,sku_id,shp_tp,shfxz,kcdz
   )values (
       #{car.sku_mch},#{car.sku_jg},
-      #{car.tjshl},#{car.hj},#{users.id},now(),1,#{car.sku_id},
+      #{car.tjshl},#{car.hj},#{users.id},now(),#{car.tjshl},#{car.sku_id},
       #{car.shp_tp},#{car.shfxz},#{car.kcdz}
   )
     </insert>
 
 <!-- void updateCount(Integer id);-->
     <update id="updateCount">
-        update  t_mall_shoppingcar set tjshl=tjshl+1 where id=#{id}
+        update  t_mall_shoppingcar set tjshl=tjshl+#{sl} where id=#{id}
     </update>
 
     <!--  void updateCount2(@Param("id") Integer id, @Param("tjshl")Integer tjshl);-->

@@ -34,6 +34,7 @@ and  pro.flbh1=#{id} GROUP BY pro.shp_mch
     <select id="getPinPai" resultType="com.jk.bean.T_mall_trade_mark">
 
         SELECT
+
             tmtm.ppmch,
             tmtm.url
         FROM
@@ -56,6 +57,7 @@ and  pro.flbh1=#{id} GROUP BY pro.shp_mch
 
     <select id="getShowPage" resultType="com.jk.bean.Mall_Sku">
         SELECT
+        sk.id,
         pro.shp_mch shpmch,
         sk.jg price,
         pro.shp_tp img,
