@@ -1,10 +1,13 @@
 package com.jk.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jk.bean.Constant;
+import com.jk.bean.Mall_shoppingCar;
 import com.jk.bean.Users;
 import com.jk.service.LoginClientService;
 import com.jk.utils.Contant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
@@ -21,12 +24,16 @@ import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.List;
 
 @Controller
 @RequestMapping("login")
 public class LoginController {
     @Resource
     private LoginClientService loginClientService;
+
+    @Resource
+    private RedisTemplate<String, List<Mall_shoppingCar>> redisTemplate;
 
     @Autowired
     private JavaMailSender sender;
@@ -73,6 +80,9 @@ public class LoginController {
             response.addCookie(cookie2);
         }
         session.setAttribute("users", usersDb);
+
+        redisTemplate.delete(Constant.redis_List+usersDb.getId());
+
         return "1";
     }
 
