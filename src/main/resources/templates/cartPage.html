@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/css.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-
+<head th:replace="gwc :: home"  ></head>
 
 
 <script type="text/javascript">
@@ -122,10 +122,8 @@
             <a href="">玉兰油</a>
         </div>
     </div>
-    <div class="card" style="height: 36px;">
-        <a href="javascript:void(0)">购物车<div class="num" id="js">0</div></a>
-
-        </div>
+    <!--购物车-->
+    <div th:replace="gwc :: miniCar"></div>
 
     </div>
 </div>

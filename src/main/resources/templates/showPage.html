@@ -16,6 +16,7 @@
     <!-- layer -->
     <script src="/js/layer/layer.js"></script>
 </head>
+<head th:replace="gwc :: home"  ></head>
 <script type="text/javascript">
     var qqqq="";
 $(function () {
@@ -162,6 +163,7 @@ $(function () {
             type:"POST",
             async:false,
             success:function(result){
+                gwcsl();
                 var count="<div class='cart_pro'>";
                 count+= "<h6>最新加入的商品</h6>";
                 $.each(result,function(index,obj){
@@ -251,10 +253,7 @@ $(function () {
             <a href="">玉兰油</a>
         </div>
     </div>
-    <div class="card" onmouseleave="$('.cart_pro').remove()">
-        <a href="/test/toView?url=cartPage" onmouseenter="gwc()">购物车<div class="num" id="js">0</div></a>
-    </div>
-
+    <div th:replace="gwc :: miniCar"></div>
 </div>
 </div>
 <div class="menu">

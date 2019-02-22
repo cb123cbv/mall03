@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/css.css">
 
 </head>
+<head th:replace="gwc :: home"  ></head>
 <script type="text/javascript">
     $(function () {
         $("[name=\"search\"]").val("");
@@ -252,14 +253,7 @@
             <a href="">玉兰油</a>
         </div>
     </div>
-    <div class="card">
-        <a href="/test/toView?url=cartPage">购物车<div class="num">0</div></a>
-
-
-
-
-        </div>
-
+    <div th:replace="gwc :: miniCar"></div>
     </div>
 </div>
 <div class="menu">
