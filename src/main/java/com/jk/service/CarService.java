@@ -9,7 +9,7 @@ import java.util.List;
 public interface CarService {
 
     Mall_shoppingCar queryCar(Integer id);
-    
+
 
 
     String judgeCookie2(String s, Cookie[] cookies);

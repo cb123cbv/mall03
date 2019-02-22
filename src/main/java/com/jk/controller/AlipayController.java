@@ -107,7 +107,8 @@ public class AlipayController {
         // 返回界面
         if (signVerified) {
             System.out.println("前往支付成功页面");
-            mav.setViewName("/test/toView?url='home'");
+            mav.setViewName("home");
+
         } else {
             System.out.println("前往支付失败页面");
             mav.setViewName("failReturn");

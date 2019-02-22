@@ -17,7 +17,7 @@ WHERE
     and sk.Id=#{id}
     </select>
 
-<!-- void addCarInfo(@Param("car")Mall_shoppingCar car, @Param("users")Users users);-->
+    <!-- void addCarInfo(@Param("car")Mall_shoppingCar car, @Param("users")Users users);-->
 
     <insert id="addCarInfo">
   insert into t_mall_shoppingcar(sku_mch,sku_jg,tjshl,hj,yh_id,chjshj,shp_id,sku_id,shp_tp,shfxz,kcdz
@@ -28,7 +28,7 @@ WHERE
   )
     </insert>
 
-<!-- void updateCount(Integer id);-->
+    <!-- void updateCount(Integer id);-->
     <update id="updateCount">
         update  t_mall_shoppingcar set tjshl=tjshl+#{sl} where id=#{id}
     </update>
@@ -38,6 +38,12 @@ WHERE
     <update id="updateCount2">
         update  t_mall_shoppingcar set tjshl=tjshl+1 where id=#{id}
     </update>
+
+    <!--List<Mall_shoppingCar> queryCarinfo(@Param("userid")Integer userid);-->
+    <select id="queryCarinfo" resultType="com.jk.bean.Mall_shoppingCar">
+  SELECT * from  t_mall_shoppingcar where yh_id=#{userid}
+    </select>
+
 
 
 </mapper>
