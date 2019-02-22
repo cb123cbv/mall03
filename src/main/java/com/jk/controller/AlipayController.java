@@ -5,22 +5,40 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradePayModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.jk.bean.Constant;
+import com.jk.bean.Mall_shoppingCar;
+import com.jk.bean.Users;
 import com.jk.config.AlipayConfig;
+import com.jk.service.CarService;
+import com.jk.service.LoginClientService;
 import com.jk.utils.OrderCode;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequestMapping("pay")
 public class AlipayController {
+
+    @Resource
+    private CarService carService;
+
+    @Resource
+    private LoginClientService loginClientService;
+
+    @Resource
+    private RedisTemplate<String, List<Mall_shoppingCar>> redisTemplate;
 
     @RequestMapping("toView")
     public String toView(String view){
@@ -84,7 +102,7 @@ public class AlipayController {
      * 同步跳转
      */
     @RequestMapping("returnUrl")
-    public ModelAndView returnUrl(HttpServletRequest request) throws Exception {
+    public ModelAndView returnUrl(HttpServletRequest request, HttpSession session) throws Exception {
         ModelAndView mav = new ModelAndView();
 
         // 获取支付宝GET过来反馈信息（官方固定代码）
@@ -107,6 +125,10 @@ public class AlipayController {
         // 返回界面
         if (signVerified) {
             System.out.println("前往支付成功页面");
+            Users users = (Users) session.getAttribute("users");
+            Users usersDb = loginClientService.getLogins(users);
+            carService.deleteCar(usersDb.getId());
+            redisTemplate.delete(Constant.redis_List+usersDb.getId());
             mav.setViewName("home");
 
         } else {

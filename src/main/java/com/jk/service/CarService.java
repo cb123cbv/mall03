@@ -22,4 +22,6 @@ public interface CarService {
     List<Mall_shoppingCar> queryCarinfo(Integer userid);
 
     void updateCount(Integer id, Integer sl);
+
+    void deleteCar(Integer id);
 }

@@ -85,6 +85,12 @@ public class CarServiceImpl implements CarService {
         carMapper.updateCount(id,sl);
     }
 
+    @Override
+    public void deleteCar(Integer id) {
+        carMapper.deleteCar(id);
+
+    }
+
 
 
     /*//购物车cookie存在,存sku
