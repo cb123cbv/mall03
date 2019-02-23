@@ -8,43 +8,14 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <head th:replace="gwc :: home"  ></head>
-
+<head th:replace="dl :: login"  ></head>
 
 <script type="text/javascript">
     $(function () {
         getCart();
         getCookie();
     })
-    // 获取cookie里的昵称，账号
-    function getCookie(){
-        var id = $("#titleName").val();
-        var str = document.cookie;
-        var arr = str.split(";");
-        $.each(arr, function (index, obj){
-            if(arr==""){
-                $("#username").append($("#ningzi").val())
-            }
-            var array = obj.split("=");
-            if(array[0].trim()=="cookie_name2"){
-                console.log(array[1]);//111-111
-                var ar = array[1].split("&");
-                var uname = ar[0];//111
-                var username = ar[1];//111
-                // alert(username)
-                $('[name="loginAcct"]').val(uname);//账号
-                if(id==""){
-                    $("#username").append(username+"请登录");
-                }else{
-                    $("#username").append(username)
-                }
-                if(username!=null){
-                    $("#name").append(username);//名字
-                }else{
-                    $("#kong").append('hi,你好');
-                }
-            }
-        })
-    }
+
       var zjg=0;
     function getCart() {
 
@@ -95,14 +66,7 @@
     }
 </script>
 <body style="zoom: 1;">
-<div class="top">
-    <div class="top_text">
-        <a href="javascript:clearSession()">退出</a>
-        <a href="/login/toLogin2">用户登录</a>
-        <a href="/login/toRegist">用户注册</a>
-        <a href="javascript:void(0)">你好,<span id="username"></span></a>
-    </div>
-</div>
+<div th:replace="dl :: loginBody"></div>
 <div class="top_img" style="background-color:#ff9933">
     <img src="//m.360buyimg.com/babel/jfs/t1/27825/39/6000/28861/5c45676bEaaecfc4b/58a017e7412beb55.png">
 </div>
@@ -110,18 +74,7 @@
 <input type="hidden" id="titleName" th:value="${session.users?.userName}">
 <div class="search">
     <div class="logo"> <img src="//img20.360buyimg.com/da/jfs/t1/23377/26/6007/190377/5c46b6dcE6a2e665e/323a50ca6adbc492.gif?t=1548224782175" width="120px"></div>
-    <div class="search_on">
-        <div class="se">
-            <input type="text" name="search" class="lf">
-            <input type="submit" class="clik" value="搜索" style="height: 32px;">
-        </div>
-        <div class="se">
-            <a href="">取暖神奇</a>
-            <a href="">1元秒杀</a>
-            <a href="">吹风机</a>
-            <a href="">玉兰油</a>
-        </div>
-    </div>
+    <div th:replace="dl :: biaoTi"></div>
     <!--购物车-->
     <div th:replace="gwc :: miniCar"></div>
 

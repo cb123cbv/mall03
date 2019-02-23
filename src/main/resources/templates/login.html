@@ -38,7 +38,12 @@
                 data:$("#login_form").serialize(),
                 success:function(result){
                     if(result==1){
-                        location.href="/test/toView?url=home";
+                        var href=document.referrer;
+                        if(href==""){
+                            location.href="/test/toView?url=home";
+                        }else{
+                            location.href=href;
+                        }
                         layer.alert("<font color='red'>登录成功</font>", {icon: 1});
                     }
                 },

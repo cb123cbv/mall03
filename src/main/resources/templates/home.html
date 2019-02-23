@@ -17,15 +17,9 @@
     <link rel="stylesheet" href="/taobao/css/style.css"/>
 </head>
 <head th:replace="gwc :: home"  ></head>
+<head th:replace="dl :: login"  ></head>
 <body>
-<div class="top">
-    <div class="top_text">
-        <a href="javascript:clearSession()">退出</a>
-        <a href="/login/toLogin2">用户登录</a>
-        <a href="/login/toRegist">用户注册</a>
-        <a href="javascript:void(0)">你好,<span id="username"></span></a>
-    </div>
-</div>
+<div th:replace="dl :: loginBody"></div>
 <!--顶部图片-->
 <div class="top_img" style="height: 70px">
     <img src="//m.360buyimg.com/babel/jfs/t1/16525/25/6065/76656/5c482ebeE7df09102/c19dc1b028ddc001.png" width="100%" height="70px">
@@ -36,12 +30,7 @@
     <div class="logo" style="margin-left:70px;" >
         <img src="//img20.360buyimg.com/da/jfs/t1/23377/26/6007/190377/5c46b6dcE6a2e665e/323a50ca6adbc492.gif?t=1548224782175" width="120px">
     </div>
-    <div class="search_on">
-        <div class="se"  style="margin-left:80px">
-            <input type="text" name="search" class="lf">
-            <input type="submit" class="clik" value="搜索">
-        </div>
-    </div>
+    <div th:replace="dl :: biaoTi"></div>
     <div th:replace="gwc :: miniCar"></div>
 </div><!--图标 + 搜索框结束-->
 
@@ -197,36 +186,7 @@
         getCookie();
     })
 
-    // 获取cookie里的昵称，账号
-    function getCookie(){
-        var id = $("#titleName").val();
-        var str = document.cookie;
-        var arr = str.split(";");
-        $.each(arr, function (index, obj){
-            if(arr==""){
-                $("#username").append($("#ningzi").val())
-            }
-            var array = obj.split("=");
-            if(array[0].trim()=="cookie_name2"){
-                console.log(array[1]);//111-111
-                var ar = array[1].split("&");
-                var uname = ar[0];//111
-                var username = ar[1];//111
-               // alert(username)
-                $('[name="loginAcct"]').val(uname);//账号
-                if(id==""){
-                    $("#username").append(username+"请登录");
-                }else{
-                    $("#username").append(username)
-                }
-                if(username!=null){
-                    $("#name").append(username);//名字
-                }else{
-                    $("#kong").append('hi,你好');
-                }
-            }
-        })
-    }
+
     function clearSession(){
         $.ajax({
             url:"/login/clearSession",
