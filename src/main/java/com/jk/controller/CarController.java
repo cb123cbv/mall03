@@ -35,7 +35,7 @@ public class CarController {
         Cookie[] cookies = request.getCookies();
         String s = carService.judgeCookie2(Constant.uuid, cookies);
         Users users = (Users) session.getAttribute("users");
-
+        Boolean uuid = redisTemplate.hasKey(Constant.uuid);//存在账号,查看redis中是否存在数据
         //用户已登录
         if (users != null) {
             Mall_shoppingCar car = carService.queryCar(sku);
@@ -71,20 +71,8 @@ public class CarController {
 
         //用户未登录
         if (users == null) {
-            if (s.equals("2")) {//购物车上没有数据,去后台查询添`加到redis
-                Mall_shoppingCar car = carService.queryCar(sku);
-                car.setTjshl(sl);
-                Cookie newcookie = new Cookie(Constant.uuid, "sssssss");//在存进去
-                newcookie.setMaxAge(7200);//保存两个小时
-                newcookie.setPath("/");
-                //此时的cookie还在服务器上 要发送到浏览器上 通过响应对象
-                response.addCookie(newcookie);
-                //redisTemplate.delete();
-                ArrayList<Mall_shoppingCar> cars = new ArrayList<>();
-                cars.add(car);
-                //将数据放入redis里
-                redisTemplate.opsForValue().set(Constant.uuid, cars, 120, TimeUnit.MINUTES);
-            } else {
+            if (uuid) {//购物车上没有数据,去后台查询添`加到redis
+
                 Cookie newcookie = new Cookie(Constant.uuid, "sssssss");//在存进去
                 newcookie.setMaxAge(7200);//保存两个小时
                 newcookie.setPath("/");
@@ -105,6 +93,22 @@ public class CarController {
                     car.setTjshl(sl);
                     cars.add(car);
                 }
+                redisTemplate.opsForValue().set(Constant.uuid, cars, 120, TimeUnit.MINUTES);
+
+
+
+            } else {
+                Mall_shoppingCar car = carService.queryCar(sku);
+                car.setTjshl(sl);
+                Cookie newcookie = new Cookie(Constant.uuid, "sssssss");//在存进去
+                newcookie.setMaxAge(7200);//保存两个小时
+                newcookie.setPath("/");
+                //此时的cookie还在服务器上 要发送到浏览器上 通过响应对象
+                response.addCookie(newcookie);
+                //redisTemplate.delete();
+                ArrayList<Mall_shoppingCar> cars = new ArrayList<>();
+                cars.add(car);
+                //将数据放入redis里
                 redisTemplate.opsForValue().set(Constant.uuid, cars, 120, TimeUnit.MINUTES);
             }
         }
