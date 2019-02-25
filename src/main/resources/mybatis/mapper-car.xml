@@ -43,7 +43,8 @@ WHERE
     <select id="queryCarinfo" resultType="com.jk.bean.Mall_shoppingCar">
   SELECT * from  t_mall_shoppingcar where yh_id=#{userid}
     </select>
-
-
-
+    <!--删除商品-->
+    <delete id="deleteCartProduct">
+        delete from t_mall_shoppingcar where yh_id=#{id} and sku_id=#{sku_id}
+    </delete>
 </mapper>

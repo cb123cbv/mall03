@@ -71,7 +71,7 @@ public class CarController {
 
         //用户未登录
         if (users == null) {
-            if (s.equals("2")) {//购物车上没有数据,去后台查询添加到redis
+            if (s.equals("2")) {//购物车上没有数据,去后台查询添`加到redis
                 Mall_shoppingCar car = carService.queryCar(sku);
                 car.setTjshl(sl);
                 Cookie newcookie = new Cookie(Constant.uuid, "sssssss");//在存进去
@@ -170,6 +170,45 @@ public class CarController {
 
         return shoppingCar;
     }
-
-
+    /*删除商品*/
+    @ResponseBody
+    @RequestMapping("deleteCartProduct")
+    public String deleteCartProduct(Integer sku_id,HttpSession session){
+        Users users = (Users) session.getAttribute("users");
+        if(users!=null){
+            carService.deleteCartProduct(sku_id,users.getId());
+            /*List<Mall_shoppingCar> carList = redisTemplate.opsForValue().get(Constant.redis_List + users.getId());
+            for (Mall_shoppingCar car : carList) {
+                if(car.getSku_id().equals(sku_id)&&car.getYh_id().equals(users.getId())){
+                    carList.remove(car);
+                }
+                if(carList.size()==0){
+                    break;
+                }
+            }
+            if(carList.size()==0){
+                redisTemplate.delete(Constant.redis_List+users.getId());
+            }else{
+                redisTemplate.opsForValue().set(Constant.redis_List+users.getId(),carList);
+            }*/
+            redisTemplate.delete(Constant.redis_List+users.getId());
+        }else{
+            String key = Constant.uuid;
+            List<Mall_shoppingCar> shoppingCars = redisTemplate.opsForValue().get(key);
+            for (Mall_shoppingCar shoppingCar : shoppingCars) {
+                if(shoppingCar.getSku_id().equals(sku_id)){
+                    shoppingCars.remove(shoppingCar);
+                }
+                if(shoppingCars.size()==0){
+                    break;
+                }
+            }
+            if(shoppingCars.size()==0){
+                redisTemplate.delete(key);
+            }else{
+                redisTemplate.opsForValue().set(key,shoppingCars);
+            }
+        }
+        return "1";
+    }
 }

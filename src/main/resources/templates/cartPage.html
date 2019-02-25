@@ -29,12 +29,12 @@
                 var jg=0;
                 $.each(result,function (index,obj) {
                     content+="<tr>"
-
-                    content+="<td>"+obj.sku_mch+"</td>"
-                    content+="<td>"+obj.sku_jg+"</td>"
-                    content+="<td>"+obj.tjshl+"</td>"
-                    content+="<td><img src="+obj.shp_tp+" width='60px'></td>"
-                    content+="<td>￥"+obj.kcdz+"</td>"
+                    content+="<td style='text-align: center'>"+obj.sku_mch+"</td>"
+                    content+="<td style='text-align: center'>"+obj.sku_jg+"</td>"
+                    content+="<td style='text-align: center'>"+obj.tjshl+"</td>"
+                    content+="<td style='text-align: center'><img src="+obj.shp_tp+" width='60px'></td>"
+                    content+="<td style='text-align: center'>"+obj.kcdz+"</td>"
+                    content+="<td style='text-align: center'><a href='javascript:deleteCartProduct("+obj.sku_id+")'>删除商品</a></td>"
                     content+="</tr>"
                     sl= parseInt(sl)+parseInt(obj.tjshl);
                     jg=parseInt(jg)+parseInt(obj.sku_jg)*parseInt(obj.tjshl);
@@ -64,6 +64,20 @@
     function js(){
         location.href="/pay/toPay?money="+zjg;
     }
+    /*删除商品*/
+    function deleteCartProduct(skuid){
+        $.ajax({
+        		url:"/car/deleteCartProduct",
+        		type:"POST",
+        		data:{sku_id:skuid},
+        		success:function(result){
+        		   	location.reload();
+        		},
+        		error:function(){
+        			alert("失败了");
+        		}
+        		})
+    }
 </script>
 <body style="zoom: 1;">
 <div th:replace="dl :: loginBody"></div>
@@ -87,12 +101,12 @@
         <thead>
         <tr>
 
-            <th>商品名称</th>
-            <th>商品价格</th>
-            <th>商品数量</th>
-            <th>商品图片</th>
-            <th>商品数量</th>
-
+            <th style='text-align: center'>商品名称</th>
+            <th style='text-align: center'>商品价格</th>
+            <th style='text-align: center'>商品数量</th>
+            <th style='text-align: center'>商品图片</th>
+            <th style='text-align: center'>商品发货地址</th>
+            <th style='text-align: center'>操作</th>
         </tr>
         </thead>
         <tbody id="cart">

@@ -24,4 +24,6 @@ public interface CarService {
     void updateCount(Integer id, Integer sl);
 
     void deleteCar(Integer id);
+
+    void deleteCartProduct(Integer sku_id, Integer id);
 }

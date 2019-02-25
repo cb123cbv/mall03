@@ -91,6 +91,12 @@ public class CarServiceImpl implements CarService {
 
     }
 
+    @Override
+    public void deleteCartProduct(Integer sku_id, Integer id) {
+        carMapper.deleteCartProduct(sku_id,id);
+    }
+
+
 
 
     /*//购物车cookie存在,存sku
