@@ -25,4 +25,6 @@ public interface CarMapper {
     void deleteCar(Integer id);
 
     void deleteCartProduct(@Param("sku_id")Integer sku_id, @Param("id")Integer id);
+
+    void updateCartProduct(@Param("sl")Integer sl, @Param("sku_id")Integer sku_id,@Param("id")Integer id);
 }

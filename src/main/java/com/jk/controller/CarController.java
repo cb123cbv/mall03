@@ -206,8 +206,30 @@ public class CarController {
             if(shoppingCars.size()==0){
                 redisTemplate.delete(key);
             }else{
-                redisTemplate.opsForValue().set(key,shoppingCars);
+                redisTemplate.opsForValue().set(key,shoppingCars,120, TimeUnit.MINUTES);
             }
+        }
+        return "1";
+    }
+    /*修改购物车数量*/
+    @ResponseBody
+    @RequestMapping("updateCartProduct")
+    public String updateCartProduct(Integer sl,Integer sku_id,HttpSession session){
+        Users users = (Users) session.getAttribute("users");
+        /*登陆状态*/
+        if(users!=null){
+            carService.updateCartProduct(sl,sku_id,users.getId());
+            redisTemplate.delete(Constant.redis_List+users.getId());
+        }
+        /*未登陆状态*/
+        else{
+            List<Mall_shoppingCar> cars = redisTemplate.opsForValue().get(Constant.uuid);
+            for (Mall_shoppingCar car : cars) {
+                if(car.getSku_id().equals(sku_id)){
+                    car.setTjshl(sl);
+                }
+            }
+            redisTemplate.opsForValue().set(Constant.uuid,cars,120, TimeUnit.MINUTES);
         }
         return "1";
     }

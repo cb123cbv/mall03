@@ -10,7 +10,7 @@ import javax.servlet.http.Cookie;
 import java.util.List;
 
 @Service
-public class CarServiceImpl implements CarService {
+public class CarServiceImpl implements CarService  {
 
     @Resource
     private CarMapper carMapper;
@@ -94,6 +94,11 @@ public class CarServiceImpl implements CarService {
     @Override
     public void deleteCartProduct(Integer sku_id, Integer id) {
         carMapper.deleteCartProduct(sku_id,id);
+    }
+
+    @Override
+    public void updateCartProduct(Integer sl, Integer sku_id,Integer id) {
+        carMapper.updateCartProduct(sl,sku_id,id);
     }
 
 
