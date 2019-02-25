@@ -4,7 +4,35 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="/js/jquery-2.1.1.min.js"></script>
+
+    <style>
+        #lunboTiTleDIvId {
+            position: relative;
+            width: 450px;
+            height: 40px;
+            margin: 10px auto;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        #lunboTiTleDIvId ul {
+            position: absolute;left: 0;
+            margin: 0;padding: 0;
+        }
+        #lunboTiTleDIvId ul li {
+            list-style: none;
+            float: left;
+            width: 450px;
+            height: 30px;
+            padding: 10px;
+        }
+
+    </style>
     <script type="text/javascript">
+
+        $(function () {
+            queryTitleMin();//查询  轮播标题
+        })
         // 获取cookie里的昵称，账号
         function getCookie(){
             var id = $("#titleName").val();
@@ -35,6 +63,61 @@
                 }
             })
         }
+
+        //查询  轮播标题
+        function queryTitleMin() {
+            $.ajax({
+                url: "/img/queryTitleMin",
+                type: "POST",
+                success: function (result) {
+                    var flag = "";
+                    $.each(result, function (index, obj) {
+                        if(index==0|index%5==0){
+                            flag += '<li>'
+                        }
+                        flag += '<a style="text-decoration:none"  href="'+obj.url+'" >' + obj.name + '</a>';
+                    })
+                    $("#lunboTiTleUlid").html(flag);
+                    lunboTitle();
+                },
+                error: function () {
+                    alert("失败了");
+                }
+            });
+        }
+
+        function lunboTitle() {
+            var oDiv = document.getElementById('lunboTiTleDIvId');
+            var oUl = oDiv.getElementsByTagName('ul')[0];
+            var aLi = oUl.getElementsByTagName('li');
+            var timer = null;
+            var iSpeed = -5;
+            oUl.innerHTML += oUl.innerHTML;
+            oUl.style.height = aLi.length * aLi[0].offsetHeight + 'px';
+            timer =setTimeout(fnMove, 5000);//等待多长时间开始轮播
+            oDiv.onmouseover = function () {
+                clearInterval(timer);
+            }
+            oDiv.onmouseout = function () {
+                clearInterval(timer);
+                timer = setInterval(fnMove, 5000);
+            }
+            function fnMove() {
+                if (oUl.offsetTop < -oUl.offsetHeight / 2) {
+                    oUl.style.top = 0;
+                }
+                oUl.style.top = oUl.offsetTop + iSpeed + 'px';
+                if ((oUl.offsetTop % 50) == 0) {
+                    clearInterval(timer);
+                    timer =setTimeout(fnMove, 5000);//轮播间隔时间
+
+                } else {
+                    clearInterval(timer);
+                    timer = setTimeout(fnMove, 100);
+                }
+            }
+        }
+
     </script>
 </head>
 <body>
@@ -52,11 +135,9 @@
         <input type="text" name="search" class="lf">
         <input type="submit" class="clik" value="搜索">
     </div>
-    <div class="se" >
-        <a href="">取暖神奇</a>
-        <a href="">1元秒杀</a>
-        <a href="">吹风机</a>
-        <a href="">玉兰油</a>
+    <div class="se" id="lunboTiTleDIvId">
+        <ul id="lunboTiTleUlid">
+        </ul>
     </div>
 </div>
 

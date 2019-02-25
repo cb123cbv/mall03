@@ -3,6 +3,7 @@ package com.jk.controller;
 
 import com.jk.bean.ImgInfo;
 import com.jk.bean.TitleInfo;
+import com.jk.bean.TitleMin;
 import com.jk.service.ImgService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,8 +42,13 @@ public class ImgController {
         return "test01";
     }
 
-
-
+    //查询 滚动导航标题
+    @RequestMapping("queryTitleMin")
+    @ResponseBody
+    public List<TitleMin> queryTitleMin(){
+        List<TitleMin> list = imgService.queryTitleMin();
+        return list;
+    }
 
 
 }
