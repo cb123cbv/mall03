@@ -155,36 +155,7 @@
             }
         });
     }
-//搜索
-    function searchProduct(){
-        var search=$("[name=\"search\"]").val();
-        if(search!=''&&search!=null){
-            $.ajax({
-                url:"/queryProduct",
-                type:"POST",
-                data:{queryString:search},
-                success:function(result){
-                    $("#aa").html("");
-                    var content="";
-                    $.each(result,function (index,obj) {
-                        content="<div class=\"list\"   >"
-                        content+="<div class=\"img\"><a href='/getShowPage?id="+obj.id+"'><img src="+obj.img+" ></a></div>"
-                        content+="<div style='color: red '>"+obj.shpmch+"</div>"
-                        content+="<div class=\"price\">￥"+obj.price+"</div>"
-                        content+="<div class=\"title\">"+obj.shxmmch+"&nbsp;"+obj.sxz+obj.shxmmch+"</div>"
-                        content+="<div class=\"title\">"+obj.adress+"</div>"
-                        content+="</div>"
-                        $("#aa").append(content)
-                    })
-                },
-                error:function(){
-                    alert("失败了");
-                }
-            })
-        }else{
-            location.reload();
-        }
-    }
+
     function clearSession(){
         $.ajax({
             url:"/login/clearSession",

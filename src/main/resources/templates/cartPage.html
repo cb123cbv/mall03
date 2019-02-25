@@ -33,7 +33,7 @@
                     content+="<tr>"
                     content+="<td style='text-align: center'>"+obj.sku_mch+"</td>"
                     content+="<td style='text-align: center'>"+obj.sku_jg+"</td>"
-                    content+="<td style='text-align: center'><button style='width: 15px' onclick='jiajian(1,"+obj.sku_id+")'>+</button><input id='input' style='width: 30px;text-align: center' value='"+obj.tjshl+"' onblur='jiajian(3,"+obj.sku_id+","+this.value+")'><button style='width: 15px' onclick='jiajian(2,"+obj.sku_id+")'>-</button></td>"
+                    content+="<td style='text-align: center'><button style='width: 15px' onclick='jiajian(1,"+obj.sku_id+",\"input"+index+"\")'>+</button><input id='input"+index+"' style='width: 30px;text-align: center' value='"+obj.tjshl+"' onblur='jiajian(3,"+obj.sku_id+",\"input"+index+"\")'><button style='width: 15px' onclick='jiajian(2,"+obj.sku_id+",\"input"+index+"\")'>-</button></td>"
                     content+="<td style='text-align: center'><img src="+obj.shp_tp+" width='60px'></td>"
                     content+="<td style='text-align: center'>"+obj.kcdz+"</td>"
                     content+="<td style='text-align: center'><a href='javascript:deleteCartProduct("+obj.sku_id+")'>删除商品</a></td>"
@@ -80,17 +80,17 @@
         		}
         		})
     }
-    function jiajian(type,sku_id){
-        var sl=$("#input").val();
+    function jiajian(type,sku_id,id){
+        var sl=$("#"+id).val();
         if(type==1){
             sl++;
-            $("#input").val(sl);
+            $("#"+id).val(sl);
         }else if(type==2){
             if(sl==1){
                 alert("至少一件");
             }else{
                 sl--;
-                $("#input").val(sl);
+                $("#"+id).val(sl)
             }
         }else{
             if(sl<1){
@@ -98,7 +98,7 @@
                 sl=1;
             }else{
                 sl=sl;
-                $("#input").val(sl);
+                $("#"+id).val(sl);
             }
         }
        $.ajax({
