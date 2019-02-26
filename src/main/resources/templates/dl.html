@@ -9,7 +9,7 @@
         #lunboTiTleDIvId {
             position: relative;
             width: 450px;
-            height: 40px;
+            height: 50px;
             margin: 10px auto;
             overflow: hidden;
             margin: 0;
@@ -23,8 +23,8 @@
             list-style: none;
             float: left;
             width: 450px;
-            height: 30px;
-            padding: 10px;
+            height: 50px;
+            padding: 0px;
         }
 
     </style>
@@ -72,10 +72,10 @@
                 success: function (result) {
                     var flag = "";
                     $.each(result, function (index, obj) {
-                        if(index==0|index%5==0){
+                        if(index==0|index%6==0){
                             flag += '<li>'
                         }
-                        flag += '<a style="text-decoration:none"  href="'+obj.url+'" >' + obj.name + '</a>';
+                        flag += '<a style="text-decoration:none"  href="'+obj.tiurl+'" >' + obj.tiname + '</a>';
                     })
                     $("#lunboTiTleUlid").html(flag);
                     lunboTitle();
@@ -91,7 +91,7 @@
             var oUl = oDiv.getElementsByTagName('ul')[0];
             var aLi = oUl.getElementsByTagName('li');
             var timer = null;
-            var iSpeed = -5;
+            var iSpeed = -5;//轮播速度
             oUl.innerHTML += oUl.innerHTML;
             oUl.style.height = aLi.length * aLi[0].offsetHeight + 'px';
             timer =setTimeout(fnMove, 5000);//等待多长时间开始轮播
@@ -100,7 +100,7 @@
             }
             oDiv.onmouseout = function () {
                 clearInterval(timer);
-                timer = setInterval(fnMove, 5000);
+                timer = setInterval(fnMove, 100);
             }
             function fnMove() {
                 if (oUl.offsetTop < -oUl.offsetHeight / 2) {
@@ -127,9 +127,10 @@
         <a href="/login/toLogin2">用户登录</a>
         <a href="/login/toRegist">用户注册</a>
         <a href="javascript:void(0)">你好,<span id="username"></span></a>
+        <a href="/test/toView?url=home">首页</a>
     </div>
 </div>
-
+zz
 <div class="search_on" th:fragment="biaoTi">
     <div class="se">
         <input type="text" name="search" class="lf">
