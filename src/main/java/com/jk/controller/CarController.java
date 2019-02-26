@@ -35,7 +35,7 @@ public class CarController {
         Cookie[] cookies = request.getCookies();
         String s = carService.judgeCookie2(Constant.uuid, cookies);
         Users users = (Users) session.getAttribute("users");
-
+        Boolean uuid = redisTemplate.hasKey(Constant.uuid);//存在账号,查看redis中是否存在数据
         //用户已登录
         if (users != null) {
             Mall_shoppingCar car = carService.queryCar(sku);
@@ -71,20 +71,8 @@ public class CarController {
 
         //用户未登录
         if (users == null) {
-            if (s.equals("2")) {//购物车上没有数据,去后台查询添加到redis
-                Mall_shoppingCar car = carService.queryCar(sku);
-                car.setTjshl(sl);
-                Cookie newcookie = new Cookie(Constant.uuid, "sssssss");//在存进去
-                newcookie.setMaxAge(7200);//保存两个小时
-                newcookie.setPath("/");
-                //此时的cookie还在服务器上 要发送到浏览器上 通过响应对象
-                response.addCookie(newcookie);
-                //redisTemplate.delete();
-                ArrayList<Mall_shoppingCar> cars = new ArrayList<>();
-                cars.add(car);
-                //将数据放入redis里
-                redisTemplate.opsForValue().set(Constant.uuid, cars, 120, TimeUnit.MINUTES);
-            } else {
+            if (uuid) {//购物车上没有数据,去后台查询添`加到redis
+
                 Cookie newcookie = new Cookie(Constant.uuid, "sssssss");//在存进去
                 newcookie.setMaxAge(7200);//保存两个小时
                 newcookie.setPath("/");
@@ -105,6 +93,22 @@ public class CarController {
                     car.setTjshl(sl);
                     cars.add(car);
                 }
+                redisTemplate.opsForValue().set(Constant.uuid, cars, 120, TimeUnit.MINUTES);
+
+
+
+            } else {
+                Mall_shoppingCar car = carService.queryCar(sku);
+                car.setTjshl(sl);
+                Cookie newcookie = new Cookie(Constant.uuid, "sssssss");//在存进去
+                newcookie.setMaxAge(7200);//保存两个小时
+                newcookie.setPath("/");
+                //此时的cookie还在服务器上 要发送到浏览器上 通过响应对象
+                response.addCookie(newcookie);
+                //redisTemplate.delete();
+                ArrayList<Mall_shoppingCar> cars = new ArrayList<>();
+                cars.add(car);
+                //将数据放入redis里
                 redisTemplate.opsForValue().set(Constant.uuid, cars, 120, TimeUnit.MINUTES);
             }
         }
@@ -170,6 +174,67 @@ public class CarController {
 
         return shoppingCar;
     }
-
-
+    /*删除商品*/
+    @ResponseBody
+    @RequestMapping("deleteCartProduct")
+    public String deleteCartProduct(Integer sku_id,HttpSession session){
+        Users users = (Users) session.getAttribute("users");
+        if(users!=null){
+            carService.deleteCartProduct(sku_id,users.getId());
+            /*List<Mall_shoppingCar> carList = redisTemplate.opsForValue().get(Constant.redis_List + users.getId());
+            for (Mall_shoppingCar car : carList) {
+                if(car.getSku_id().equals(sku_id)&&car.getYh_id().equals(users.getId())){
+                    carList.remove(car);
+                }
+                if(carList.size()==0){
+                    break;
+                }
+            }
+            if(carList.size()==0){
+                redisTemplate.delete(Constant.redis_List+users.getId());
+            }else{
+                redisTemplate.opsForValue().set(Constant.redis_List+users.getId(),carList);
+            }*/
+            redisTemplate.delete(Constant.redis_List+users.getId());
+        }else{
+            String key = Constant.uuid;
+            List<Mall_shoppingCar> shoppingCars = redisTemplate.opsForValue().get(key);
+            for (Mall_shoppingCar shoppingCar : shoppingCars) {
+                if(shoppingCar.getSku_id().equals(sku_id)){
+                    shoppingCars.remove(shoppingCar);
+                }
+                if(shoppingCars.size()==0){
+                    break;
+                }
+            }
+            if(shoppingCars.size()==0){
+                redisTemplate.delete(key);
+            }else{
+                redisTemplate.opsForValue().set(key,shoppingCars,120, TimeUnit.MINUTES);
+            }
+        }
+        return "1";
+    }
+    /*修改购物车数量*/
+    @ResponseBody
+    @RequestMapping("updateCartProduct")
+    public String updateCartProduct(Integer sl,Integer sku_id,HttpSession session){
+        Users users = (Users) session.getAttribute("users");
+        /*登陆状态*/
+        if(users!=null){
+            carService.updateCartProduct(sl,sku_id,users.getId());
+            redisTemplate.delete(Constant.redis_List+users.getId());
+        }
+        /*未登陆状态*/
+        else{
+            List<Mall_shoppingCar> cars = redisTemplate.opsForValue().get(Constant.uuid);
+            for (Mall_shoppingCar car : cars) {
+                if(car.getSku_id().equals(sku_id)){
+                    car.setTjshl(sl);
+                }
+            }
+            redisTemplate.opsForValue().set(Constant.uuid,cars,120, TimeUnit.MINUTES);
+        }
+        return "1";
+    }
 }

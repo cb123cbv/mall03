@@ -6,6 +6,8 @@
     <script src="/js/jquery-2.1.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/css.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="/js/layer/layer.js"></script>
+
 </head>
 <head th:replace="gwc :: home"  ></head>
 <head th:replace="dl :: login"  ></head>
@@ -29,12 +31,12 @@
                 var jg=0;
                 $.each(result,function (index,obj) {
                     content+="<tr>"
-
-                    content+="<td>"+obj.sku_mch+"</td>"
-                    content+="<td>"+obj.sku_jg+"</td>"
-                    content+="<td>"+obj.tjshl+"</td>"
-                    content+="<td><img src="+obj.shp_tp+" width='60px'></td>"
-                    content+="<td>￥"+obj.kcdz+"</td>"
+                    content+="<td style='text-align: center'>"+obj.sku_mch+"</td>"
+                    content+="<td style='text-align: center'>"+obj.sku_jg+"</td>"
+                    content+="<td style='text-align: center'><button style='width: 15px' onclick='jiajian(1,"+obj.sku_id+",\"input"+index+"\")'>+</button><input id='input"+index+"' style='width: 30px;text-align: center' value='"+obj.tjshl+"' onblur='jiajian(3,"+obj.sku_id+",\"input"+index+"\")'><button style='width: 15px' onclick='jiajian(2,"+obj.sku_id+",\"input"+index+"\")'>-</button></td>"
+                    content+="<td style='text-align: center'><img src="+obj.shp_tp+" width='60px'></td>"
+                    content+="<td style='text-align: center'>"+obj.kcdz+"</td>"
+                    content+="<td style='text-align: center'><a href='javascript:deleteCartProduct("+obj.sku_id+")'>删除商品</a></td>"
                     content+="</tr>"
                     sl= parseInt(sl)+parseInt(obj.tjshl);
                     jg=parseInt(jg)+parseInt(obj.sku_jg)*parseInt(obj.tjshl);
@@ -64,9 +66,59 @@
     function js(){
         location.href="/pay/toPay?money="+zjg;
     }
+    /*删除商品*/
+    function deleteCartProduct(skuid){
+        $.ajax({
+        		url:"/car/deleteCartProduct",
+        		type:"POST",
+        		data:{sku_id:skuid},
+        		success:function(result){
+        		   	location.reload();
+        		},
+        		error:function(){
+        			alert("失败了");
+        		}
+        		})
+    }
+    function jiajian(type,sku_id,id){
+        var sl=$("#"+id).val();
+        if(type==1){
+            sl++;
+            $("#"+id).val(sl);
+        }else if(type==2){
+            if(sl==1){
+                alert("至少一件");
+            }else{
+                sl--;
+                $("#"+id).val(sl)
+            }
+        }else{
+            if(sl<1){
+                layer.msg("至少一件");
+                sl=1;
+            }else{
+                sl=sl;
+                $("#"+id).val(sl);
+            }
+        }
+       $.ajax({
+       		url:"/car/updateCartProduct",
+       		type:"POST",
+       		data:{sl:sl,sku_id:sku_id},
+       		success:function(result){
+              if(result==1){
+                  location.reload();
+              }
+       		},
+       		error:function(){
+       			alert("失败了");
+       		}
+       		})
+
+    }
 </script>
 <body style="zoom: 1;">
-<div th:replace="dl :: loginBody"></div>
+<div th:replace="dl :: loginBody" ></div>
 <div class="top_img" style="background-color:#ff9933">
     <img src="//m.360buyimg.com/babel/jfs/t1/27825/39/6000/28861/5c45676bEaaecfc4b/58a017e7412beb55.png">
 </div>
@@ -74,7 +126,7 @@
 <input type="hidden" id="titleName" th:value="${session.users?.userName}">
 <div class="search">
     <div class="logo"> <img src="//img20.360buyimg.com/da/jfs/t1/23377/26/6007/190377/5c46b6dcE6a2e665e/323a50ca6adbc492.gif?t=1548224782175" width="120px"></div>
-    <div th:replace="dl :: biaoTi"></div>
+    <div th:replace="dl :: biaoTi" style="margin-top: 20px"> </div>
     <!--购物车-->
     <div th:replace="gwc :: miniCar"></div>
 
@@ -87,12 +139,12 @@
         <thead>
         <tr>
 
-            <th>商品名称</th>
-            <th>商品价格</th>
-            <th>商品数量</th>
-            <th>商品图片</th>
-            <th>商品数量</th>
-
+            <th style='text-align: center'>商品名称</th>
+            <th style='text-align: center'>商品价格</th>
+            <th style='text-align: center'>商品数量</th>
+            <th style='text-align: center'>商品图片</th>
+            <th style='text-align: center'>商品发货地址</th>
+            <th style='text-align: center'>操作</th>
         </tr>
         </thead>
         <tbody id="cart">
