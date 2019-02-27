@@ -45,8 +45,9 @@ public class CarServiceImpl implements CarService  {
         if (carList.size()>0) {//如果数据库中的购物车有数据,将redis中的数据和数据库购物车
             for (Mall_shoppingCar car : shoppingCar) {
                 for (Mall_shoppingCar car2 : carList) {
+
                     if(car.getSku_id().equals(car2.getSku_id())){
-                        carMapper.updateCount(car2.getId(),car2.getTjshl());
+                        carMapper.updateCount(car2.getId(),car.getTjshl());
                         car.setSku_mch("hhh");
                     }
                 }

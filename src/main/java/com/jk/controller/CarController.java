@@ -86,6 +86,8 @@ public class CarController {
                     if (car.getSku_id().equals(sku)) {
                         car.setTjshl(car.getTjshl() + sl);
                         num = 1;
+
+
                     }
                 }
                 if (num != 1) {
@@ -129,19 +131,18 @@ public class CarController {
 
         //以登录,点击查看购物车,存入数据库中
         if (users != null) {
-            String s = carService.judgeCookie2(Constant.uuid, cookies);
-            if (s.equals("1")) {
+
+
                 Boolean exis = redisTemplate.hasKey(Constant.uuid);
                 if (exis) {
                     shoppingCar = redisTemplate.opsForValue().get(Constant.uuid);
                     carService.addCarInfo(users, shoppingCar);
                     redisTemplate.delete(Constant.uuid);
-                    Cookie newcookie = new Cookie(Constant.uuid, "sssssss");//在存进去
-                    newcookie.setMaxAge(0);
-                    newcookie.setPath("/");
-                    response.addCookie(newcookie);
+
+
+
                 }
-            }
+
 
             //以登录,点击查看购物车,查看缓存
             Boolean exiskey = redisTemplate.hasKey(Constant.redis_List+users.getId());//存在账号,查看redis中是否存在数据
@@ -158,19 +159,14 @@ public class CarController {
 
         //未登录
         if (users == null) {
-            String s = carService.judgeCookie2(Constant.uuid, cookies);
-            if (s.equals("1")) {
                 Boolean exiskey = redisTemplate.hasKey(Constant.uuid);//存在账号,查看redis中是否存在数据
                 if (exiskey) {
                     shoppingCar = redisTemplate.opsForValue().get(Constant.uuid);
                 } else {
                     shoppingCar = null;
                 }
-
-            } else {
-                shoppingCar = null;
             }
-        }
+
 
         return shoppingCar;
     }
@@ -181,20 +177,7 @@ public class CarController {
         Users users = (Users) session.getAttribute("users");
         if(users!=null){
             carService.deleteCartProduct(sku_id,users.getId());
-            /*List<Mall_shoppingCar> carList = redisTemplate.opsForValue().get(Constant.redis_List + users.getId());
-            for (Mall_shoppingCar car : carList) {
-                if(car.getSku_id().equals(sku_id)&&car.getYh_id().equals(users.getId())){
-                    carList.remove(car);
-                }
-                if(carList.size()==0){
-                    break;
-                }
-            }
-            if(carList.size()==0){
-                redisTemplate.delete(Constant.redis_List+users.getId());
-            }else{
-                redisTemplate.opsForValue().set(Constant.redis_List+users.getId(),carList);
-            }*/
+
             redisTemplate.delete(Constant.redis_List+users.getId());
         }else{
             String key = Constant.uuid;
