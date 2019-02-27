@@ -1,32 +1,57 @@
+王杰 09:45:27
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="/js/jquery-2.1.1.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+
+
 </head>
-<script type="text/javascript">
-
-
-function voice(){
-    $.ajax({
-        url:"/voice",
-        type:"POST",
-        data:{AUDIO_FILE_PATH:$("[name='AUDIO_FILE_PATH']").val()},
-        success:function(pageUtil){
-
-        },
-        error:function(){
-            alert("失败了");
-        }
-    })
-}
-
-</script>
 <body>
-<form>
-    <input type="file" name="AUDIO_FILE_PATH">
-</form>
-<input type="button" onclick="voice()"  value="提交">
+<div>
+    <audio controls autoplay   id="downloadRec"></audio>
+    <button  onclick="startRecording()" >
+        <img src="/images/voice.jpg" height="20" width="20" alt="录音">
+    </button>
+    <input onclick="startRecording()" type="button" value="录音"/>
+    <input onclick="stopRecording()" type="button" value="停止"/>
+    <input onclick="playRecording()" type="button" value="播放"/>
+    <a href="" onclick="uploadFile()" >上传</a>
+</div>
+
+<script type="text/javascript" src="/HZRecorder.js"></script>
+
+
+<script>
+
+    var recorder;
+
+    var audio = document.querySelector('audio');
+
+    function startRecording() {
+        HZRecorder.get(function (rec) {
+            recorder = rec;
+            recorder.start();
+        });
+    }
+
+    function stopRecording() {
+        recorder.stop();
+        uploadFile()
+    }
+
+    function playRecording() {
+        recorder.play(audio);
+    }
+
+    function uploadFile() {
+        //后台接收文件的参数为 audioData
+        recorder.upload("/voice", function (str) {
+            console.log(str)
+        })
+    }
+</script>
+
 </body>
 </html>
+

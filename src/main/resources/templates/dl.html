@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="/js/jquery-2.1.1.min.js"></script>
-
+    <link rel="stylesheet" type="text/css" href="css/css.css">
+    <script type="text/javascript" src="/HZRecorder.js"></script>
     <style>
         #lunboTiTleDIvId {
             position: relative;
@@ -147,6 +148,36 @@
                 location.reload();
             }
         }
+        /*语音识别*/
+        var recorder;
+
+        var audio = document.querySelector('audio');
+
+        function startRecording() {
+            HZRecorder.get(function (rec) {
+                recorder = rec;
+                recorder.start();
+            });
+        }
+
+        function stopRecording() {
+            recorder.stop();
+            uploadFile()
+        }
+
+        function playRecording() {
+            recorder.play(audio);
+        }
+
+        function uploadFile() {
+            //后台接收文件的参数为 audioData
+            recorder.upload("/voice", function (str) {
+                // console.log(str)
+                var strToObj=JSON.parse(str)
+                $("#ss").val(strToObj.data);
+
+            })
+        }
     </script>
 </head>
 <body>
@@ -162,8 +193,14 @@
 zz
 <div class="search_on" th:fragment="biaoTi">
     <div class="se">
-        <input type="text" name="search" class="lf">
+        <input type="text" name="search" class="lf" id="ss">
         <input type="submit" class="clik" value="搜索" onclick="searchProduct()">
+        <button  onclick="startRecording()" >
+            <img src="/images/voice.jpg" height="28" width="20" alt="录音">
+        </button>
+        <button  onclick="stopRecording()" >
+            <img src="/images/stop.png" height="28" width="20" alt="结束">
+        </button>
     </div>
     <div class="se" id="lunboTiTleDIvId">
         <ul id="lunboTiTleUlid">
